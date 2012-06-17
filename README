@@ -12,6 +12,12 @@ DEPENDENCIES
 qSerialTerm relies on the QtSerialPort library. For installation steps,
 check the wiki (https://github.com/JorgeAparicio/qSerialTerm/wiki).
 
+BUILDING
+========
+
+ $ qmake
+ $ make
+
 DEVELOPMENT
 ===========
 
