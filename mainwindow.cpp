@@ -120,8 +120,20 @@ void MainWindow::on_portComboBox_currentIndexChanged(int index)
 
     ui->baudRateComboBox->setCurrentIndex(-1);
 
-    ui->vidLabel->setText("0x" + portList[index].vendorIdentifier());
-    ui->pidLabel->setText("0x" + portList[index].productIdentifier());
+    QString vid = portList[index].vendorIdentifier();
+
+    if (vid.isEmpty())
+      ui->vidLabel->setText("-");
+    else
+      ui->vidLabel->setText("0x" + vid);
+
+    QString pid = portList[index].productIdentifier();
+
+    if (pid.isEmpty())
+      ui->pidLabel->setText("-");
+    else
+      ui->pidLabel->setText("0x" + pid);
+
     ui->portStatusLabel->setText("<font color = red>Closed");
   }
 }
