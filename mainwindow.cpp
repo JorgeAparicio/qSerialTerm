@@ -305,7 +305,9 @@ void MainWindow::on_openPortButton_clicked()
       ui->portComboBox->setDisabled(true);
 
     } else {
-      /* TODO: COULDN'T OPEN PORT */
+      QMessageBox::warning(this, "Couldn't open port", "qSerialTerm couldn't "
+                           "open the requested port, check that the selected "
+                           "port is not already open.");
     }
   }
 }
