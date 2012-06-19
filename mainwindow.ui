@@ -107,7 +107,7 @@
            <item>
             <widget class="QCheckBox" name="echoCheckBox">
              <property name="text">
-              <string>Echo</string>
+              <string>Local Echo</string>
              </property>
             </widget>
            </item>
