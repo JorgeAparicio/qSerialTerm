@@ -30,4 +30,4 @@ LICENSE
 The qSerialTerm code is released under the terms of the GNU General Public
 License (GPL) version 3.
 
-See COPYING.GPL3 for more details.
+See COPYING.GPL3.txt for more details.
