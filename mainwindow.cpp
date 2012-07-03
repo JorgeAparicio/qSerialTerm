@@ -398,7 +398,7 @@ void MainWindow::on_actionAbout_triggered()
                      "jorge.aparicio.r@gmail.com</a>&gt;<br/><br/>"
                      "qserialTerm is licensed under the: <br/><br/>"
                      "<a href=\"http://www.gnu.org/licenses/\">"
-                     "GNU General Public License(GPL) v3 or later</a><br/><br/>"
+                     "GNU General Public License(GPL) v3</a><br/><br/>"
                      "The qSerialTerm source code can be found in this "
                      "<a href=\"https://github.com/JorgeAparicio/qSerialTerm\">"
                      "repository</a>.<br/></center>");
