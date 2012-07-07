@@ -19,7 +19,13 @@
 
 QT          +=  core gui
 
-LIBS        +=  -lSerialPort
+win32 {
+    CONFIG  += serialport
+}
+
+unix {
+    LIBS    +=  -lSerialPort
+}
 
 TARGET      =   qSerialTerm
 TEMPLATE    =   app
