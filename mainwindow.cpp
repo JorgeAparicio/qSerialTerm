@@ -368,10 +368,19 @@ void MainWindow::on_sendBinaryButton_clicked()
   QByteArray frame;
 
   frame.append(ui->binaryLineEdit->text().toShort());
-  ui->binaryLineEdit->clear();
+
+  if (ui->echoCheckBox->isChecked()) {
+    ui->terminalTextEdit->setFocus();
+    ui->terminalTextEdit->moveCursor(QTextCursor::End,
+                                     QTextCursor::MoveAnchor);
+
+    ui->terminalTextEdit->append(frame);
+    ui->terminalTextEdit->insertPlainText("\n");
+  }
 
   port->write(frame);
 
+  ui->binaryLineEdit->clear();
   ui->binaryLineEdit->setFocus();
 }
 
