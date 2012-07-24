@@ -277,12 +277,22 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
-          <width>161</width>
-          <height>749</height>
+          <y>-231</y>
+          <width>181</width>
+          <height>637</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
+         <item row="18" column="0">
+          <widget class="QLabel" name="label_14">
+           <property name="contextMenuPolicy">
+            <enum>Qt::NoContextMenu</enum>
+           </property>
+           <property name="text">
+            <string>Flow control:</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="0">
           <widget class="QLabel" name="label">
            <property name="text">
@@ -555,16 +565,6 @@
            </item>
           </widget>
          </item>
-         <item row="18" column="0">
-          <widget class="QLabel" name="label_14">
-           <property name="contextMenuPolicy">
-            <enum>Qt::NoContextMenu</enum>
-           </property>
-           <property name="text">
-            <string>Flow control:</string>
-           </property>
-          </widget>
-         </item>
          <item row="19" column="0">
           <widget class="QComboBox" name="flowControlComboBox">
            <property name="enabled">
@@ -591,26 +591,6 @@
           </widget>
          </item>
          <item row="20" column="0">
-          <widget class="QLabel" name="label_6">
-           <property name="text">
-            <string>Start Frame:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="21" column="0">
-          <widget class="QLineEdit" name="startFrameLineEdit"/>
-         </item>
-         <item row="22" column="0">
-          <widget class="QLabel" name="label_7">
-           <property name="text">
-            <string>End Frame:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="23" column="0">
-          <widget class="QLineEdit" name="endFrameLineEdit"/>
-         </item>
-         <item row="24" column="0">
           <layout class="QHBoxLayout" name="horizontalLayout_6">
            <item>
             <spacer name="horizontalSpacer_7">
@@ -650,14 +630,14 @@
            </item>
           </layout>
          </item>
-         <item row="25" column="0">
+         <item row="21" column="0">
           <widget class="QLabel" name="label_8">
            <property name="text">
             <string>Status:</string>
            </property>
           </widget>
          </item>
-         <item row="26" column="0">
+         <item row="22" column="0">
           <widget class="QLabel" name="communicationStatusLabel">
            <property name="text">
             <string>&lt;font color = red&gt;No communication</string>

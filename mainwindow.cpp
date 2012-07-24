@@ -38,8 +38,6 @@ MainWindow::MainWindow(QWidget *parent) :
   /* Add validators to the QLineEdits */
   QRegExp asciiRegExp("[\\x0000-\\x007F]*");
 
-  ui->startFrameLineEdit->setValidator(new QRegExpValidator(asciiRegExp, this));
-  ui->endFrameLineEdit->setValidator(new QRegExpValidator(asciiRegExp, this));
   ui->asciiLineEdit->setValidator(new QRegExpValidator(asciiRegExp, this));
   ui->binaryLineEdit->setValidator(new QIntValidator(0, 255, this));
 
@@ -69,9 +67,7 @@ void MainWindow::validateCommunicationSettings(void)
       (ui->dataBitsComboBox->currentIndex() != -1) &&
       (ui->stopBitsComboBox->currentIndex() != -1) &&
       (ui->parityComboBox->currentIndex() != -1) &&
-      (ui->flowControlComboBox->currentIndex() != -1) &&
-      ui->startFrameLineEdit->hasAcceptableInput() &&
-      ui->endFrameLineEdit->hasAcceptableInput())
+      (ui->flowControlComboBox->currentIndex() != -1))
     ui->startCommunicationButton->setEnabled(true);
 
 }
@@ -327,8 +323,6 @@ void MainWindow::on_openPortButton_clicked()
 void MainWindow::on_startCommunicationButton_clicked()
 {
   if (communicationOngoing) {
-    port->write(ui->endFrameLineEdit->text().toLocal8Bit());
-
     enableCommunicationSettings();
 
     ui->sendAsciiButton->setDisabled(true);
@@ -340,8 +334,6 @@ void MainWindow::on_startCommunicationButton_clicked()
 
     communicationOngoing = false;
   } else {
-    port->write(ui->startFrameLineEdit->text().toLocal8Bit());
-
     disableCommunicationSettings();
 
     ui->startCommunicationButton->setText("Stop");
