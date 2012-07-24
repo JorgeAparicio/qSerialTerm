@@ -20,6 +20,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QFileDialog>
+#include <QDateTime>
+
 QT_USE_NAMESPACE_SERIALPORT
 
 /* CONSTRUCTORS AND DESTRUCTORS */
@@ -27,7 +30,8 @@ QT_USE_NAMESPACE_SERIALPORT
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   ui(new Ui::MainWindow),
-  communicationOngoing(false)
+  isThereCommunication(false),
+  isThereLogging(false)
 {
   // Configure the GUI
   ui->setupUi(this);
@@ -36,6 +40,9 @@ MainWindow::MainWindow(QWidget *parent) :
   port = new SerialPort(this);
   refreshRateTimer = new QTimer;
   refreshRateTimer->setInterval(25);
+  secondKeeper = new QTimer(this);
+  secondKeeper->setInterval(1000);
+  loggingTime = new QTime();
 
   // Add validators to the QLineEdits
   QRegExp asciiRegExp("[\\x0000-\\x007F]*");
@@ -46,6 +53,9 @@ MainWindow::MainWindow(QWidget *parent) :
   // Signal-Slot connections
   connect(refreshRateTimer, SIGNAL(timeout()),
           this,             SLOT(on_refreshRateTimer_timeout()));
+
+  connect(secondKeeper, SIGNAL(timeout()),
+          this,         SLOT(on_secondKeep_timeout()));
 }
 
 MainWindow::~MainWindow()
@@ -97,7 +107,7 @@ void MainWindow::on_portComboBox_currentIndexChanged(int index)
 
     ui->pidLabel->setText("-");
     ui->vidLabel->setText("-");
-    ui->portStatusLabel->setText("<font color = red>No port select");
+    ui->portStatusLabel->setText("<font color=red>No port select");
   } else {
     ui->openPortButton->setEnabled(true);
 
@@ -126,7 +136,7 @@ void MainWindow::on_portComboBox_currentIndexChanged(int index)
     else
       ui->pidLabel->setText("0x" + pid);
 
-    ui->portStatusLabel->setText("<font color = red>Closed");
+    ui->portStatusLabel->setText("<font color=red>Closed");
   }
 }
 
@@ -250,7 +260,7 @@ void MainWindow::on_flowControlComboBox_currentIndexChanged(int index)
 
 void MainWindow::on_asciiLineEdit_textEdited()
 {
-  if (communicationOngoing &&
+  if (isThereCommunication &&
       ui->asciiLineEdit->hasAcceptableInput())
     ui->sendAsciiButton->setEnabled(true);
   else
@@ -259,12 +269,18 @@ void MainWindow::on_asciiLineEdit_textEdited()
 
 void MainWindow::on_binaryLineEdit_textEdited()
 {
-  if (communicationOngoing &&
+  if (isThereCommunication &&
       ui->binaryLineEdit->hasAcceptableInput())
     ui->sendBinaryButton->setEnabled(true);
   else
     ui->sendBinaryButton->setDisabled(true);
 }
+
+void MainWindow::on_filePathEdit_textChanged(const QString &str)
+{
+  ui->startLoggingButton->setEnabled(str.length() != 0);
+}
+
 
 void MainWindow::on_asciiLineEdit_returnPressed()
 {
@@ -290,12 +306,12 @@ void MainWindow::on_openPortButton_clicked()
 {
   if (port->isOpen()) {
 
-    if (communicationOngoing)
+    if (isThereCommunication)
       on_startCommunicationButton_clicked();
 
     port->close();
 
-    ui->portStatusLabel->setText("<font color = red>Closed");
+    ui->portStatusLabel->setText("<font color=red>Closed");
     ui->openPortButton->setText("Open");
 
     ui->portComboBox->setEnabled(true);
@@ -311,7 +327,7 @@ void MainWindow::on_openPortButton_clicked()
   } else {
     if (port->open(QIODevice::ReadWrite)) {
 
-      ui->portStatusLabel->setText("<font color = green>Open");
+      ui->portStatusLabel->setText("<font color=green>Open");
       ui->openPortButton->setText("Close");
 
       enableCommunicationSettings();
@@ -328,7 +344,7 @@ void MainWindow::on_openPortButton_clicked()
 
 void MainWindow::on_startCommunicationButton_clicked()
 {
-  if (communicationOngoing) {
+  if (isThereCommunication) {
     enableCommunicationSettings();
 
     ui->sendAsciiButton->setDisabled(true);
@@ -336,9 +352,9 @@ void MainWindow::on_startCommunicationButton_clicked()
 
     ui->startCommunicationButton->setText("Start");
 
-    ui->communicationStatusLabel->setText("<font color = red>No communication");
+    ui->communicationStatusLabel->setText("<font color=red>No communication");
 
-    communicationOngoing = false;
+    isThereCommunication = false;
 
     refreshRateTimer->stop();
   } else {
@@ -346,9 +362,9 @@ void MainWindow::on_startCommunicationButton_clicked()
 
     ui->startCommunicationButton->setText("Stop");
 
-    ui->communicationStatusLabel->setText("<font color = green>Ongoing");
+    ui->communicationStatusLabel->setText("<font color=green>Ongoing");
 
-    communicationOngoing = true;
+    isThereCommunication = true;
 
     on_binaryLineEdit_textEdited();
     on_asciiLineEdit_textEdited();
@@ -393,6 +409,57 @@ void MainWindow::on_clearButton_clicked()
   ui->terminalTextEdit->clear();
 }
 
+void MainWindow::on_browseButton_clicked()
+{
+  ui->filePathEdit->setText(QFileDialog::getSaveFileName(this, "Save file"));
+}
+
+void MainWindow::on_startLoggingButton_clicked()
+{
+  if (isThereLogging) {
+    secondKeeper->stop();
+
+    logFile->close();
+    ui->startLoggingButton->setText("Start");
+
+    ui->appendCheckBox->setEnabled(true);
+
+    ui->loggingTimeLabel->setText("<font color=red>" +
+                                  loggingTime->toString("hh:mm:ss"));
+
+    isThereLogging = false;
+  } else {
+    bool ok;
+
+    logFile = new QFile(ui->filePathEdit->text());
+    if (ui->appendCheckBox->isChecked())
+      ok = logFile->open(QIODevice::WriteOnly |
+                         QIODevice::Text |
+                         QIODevice::Append);
+    else
+      ok = logFile->open(QIODevice::WriteOnly |
+                         QIODevice::Text);
+    if (ok) {
+      logFileStream = new QTextStream(logFile);
+
+      ui->filePathEdit->setDisabled(true);
+      ui->startLoggingButton->setText("Stop");
+
+      ui->appendCheckBox->setDisabled(true);
+
+      loggingTime->setHMS(0, 0, 0);
+      ui->loggingTimeLabel->setText("<font color=red>" +
+                                    loggingTime->toString("hh:mm:ss"));
+      secondKeeper->start();
+
+      isThereLogging = true;
+    } else {
+      QMessageBox::warning(this, "Couldn't open file", "qSerialTerm couldn't "
+                           "open the requested file, check the file path.");
+    }
+  }
+}
+
 void MainWindow::on_actionAbout_triggered()
 {
   QMessageBox::about(this, "About",
@@ -417,10 +484,24 @@ void MainWindow::on_actionSerial_Port_toggled(bool checked)
     ui->serialPortSettingsDock->hide();
 }
 
+void MainWindow::on_actionLogging_toggled(bool checked)
+{
+  if (checked)
+    ui->loggingDockWidget->show();
+  else
+    ui->loggingDockWidget->hide();
+}
+
 void MainWindow::on_serialPortSettingsDock_visibilityChanged(bool visible)
 {
   if (!visible)
     ui->actionSerial_Port->setChecked(false);
+}
+
+void MainWindow::on_loggingDockWidget_visibilityChanged(bool visible)
+{
+  if (!visible)
+    ui->actionLogging->setChecked(false);
 }
 
 void MainWindow::on_refreshRateTimer_timeout()
@@ -432,5 +513,16 @@ void MainWindow::on_refreshRateTimer_timeout()
                                      QTextCursor::MoveAnchor);
 
     ui->terminalTextEdit->insertPlainText(receivedCharacters);
+
+    if (isThereLogging)
+      *logFileStream << receivedCharacters;
   }
+}
+
+void MainWindow::on_secondKeep_timeout()
+{
+  *loggingTime = loggingTime->addSecs(1);
+
+  ui->loggingTimeLabel->setText("<font color=green>" +
+                                loggingTime->toString("hh:mm:ss"));
 }

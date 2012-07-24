@@ -23,6 +23,9 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QTimer>
+#include <QTime>
+#include <QFile>
+#include <QTextStream>
 
 #include <QtAddOnSerialPort/serialport.h>
 #include <QtAddOnSerialPort/serialportinfo.h>
@@ -43,8 +46,13 @@ class MainWindow : public QMainWindow
     Ui::MainWindow *ui;
     QtAddOn::SerialPort::SerialPort *port;
     QList<QtAddOn::SerialPort::SerialPortInfo> portList;
-    bool communicationOngoing;
     QTimer *refreshRateTimer;
+    QFile *logFile;
+    QTextStream *logFileStream;
+    QTime *loggingTime;
+    QTimer *secondKeeper;
+    bool isThereCommunication;
+    bool isThereLogging;
 
     void validateCommunicationSettings(void);
     void enableCommunicationSettings(void);
@@ -62,6 +70,8 @@ class MainWindow : public QMainWindow
     void on_asciiLineEdit_textEdited();
     void on_binaryLineEdit_textEdited();
 
+    void on_filePathEdit_textChanged(const QString &);
+
     void on_asciiLineEdit_returnPressed();
     void on_binaryLineEdit_returnPressed();
 
@@ -71,14 +81,20 @@ class MainWindow : public QMainWindow
     void on_sendAsciiButton_clicked();
     void on_sendBinaryButton_clicked();
     void on_clearButton_clicked();
+    void on_browseButton_clicked();
+    void on_startLoggingButton_clicked();
 
     void on_actionAbout_triggered();
-    void on_actionSerial_Port_toggled(bool);
 
-    void on_serialPortSettingsDock_visibilityChanged(bool visible);
+    void on_actionSerial_Port_toggled(bool);
+    void on_actionLogging_toggled(bool);
+
+    void on_serialPortSettingsDock_visibilityChanged(bool);
+    void on_loggingDockWidget_visibilityChanged(bool);
 
     // Need manual connection
     void on_refreshRateTimer_timeout();
+    void on_secondKeep_timeout();
 };
 
 #endif // MAINWINDOW_H
