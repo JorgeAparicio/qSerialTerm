@@ -22,6 +22,7 @@
 
 #include <QMainWindow>
 #include <QMessageBox>
+#include <QTimer>
 
 #include <QtAddOnSerialPort/serialport.h>
 #include <QtAddOnSerialPort/serialportinfo.h>
@@ -43,6 +44,7 @@ class MainWindow : public QMainWindow
     QtAddOn::SerialPort::SerialPort *port;
     QList<QtAddOn::SerialPort::SerialPortInfo> portList;
     bool communicationOngoing;
+    QTimer *refreshRateTimer;
 
     void validateCommunicationSettings(void);
     void enableCommunicationSettings(void);
@@ -76,7 +78,7 @@ class MainWindow : public QMainWindow
     void on_serialPortSettingsDock_visibilityChanged(bool visible);
 
     // Need manual connection
-    void port_readyRead();
+    void on_refreshRateTimer_timeout();
 };
 
 #endif // MAINWINDOW_H

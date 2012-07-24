@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
   // Initialize class members
   port = new SerialPort(this);
+  refreshRateTimer = new QTimer;
+  refreshRateTimer->setInterval(25);
 
   // Add validators to the QLineEdits
   QRegExp asciiRegExp("[\\x0000-\\x007F]*");
@@ -42,8 +44,8 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->binaryLineEdit->setValidator(new QIntValidator(0, 255, this));
 
   // Signal-Slot connections
-  connect(port, SIGNAL(readyRead()),
-          this, SLOT(port_readyRead()));
+  connect(refreshRateTimer, SIGNAL(timeout()),
+          this,             SLOT(on_refreshRateTimer_timeout()));
 }
 
 MainWindow::~MainWindow()
@@ -337,6 +339,8 @@ void MainWindow::on_startCommunicationButton_clicked()
     ui->communicationStatusLabel->setText("<font color = red>No communication");
 
     communicationOngoing = false;
+
+    refreshRateTimer->stop();
   } else {
     disableCommunicationSettings();
 
@@ -348,20 +352,20 @@ void MainWindow::on_startCommunicationButton_clicked()
 
     on_binaryLineEdit_textEdited();
     on_asciiLineEdit_textEdited();
+
+    refreshRateTimer->start();
   }
 }
 
 void MainWindow::on_sendAsciiButton_clicked()
 {
-  if (ui->echoCheckBox->isChecked()) {
-    ui->terminalTextEdit->setFocus();
-    ui->terminalTextEdit->moveCursor(QTextCursor::End,
-                                     QTextCursor::MoveAnchor);
+  QString ascii(ui->asciiLineEdit->text());
 
-    ui->terminalTextEdit->append(ui->asciiLineEdit->text());
+  if (ui->echoCheckBox->isChecked()) {
+    ui->terminalTextEdit->append(ascii);
     ui->terminalTextEdit->insertPlainText("\n");
   }
-  port->write(ui->asciiLineEdit->text().toLocal8Bit());
+  port->write(ascii.toLocal8Bit());
 
   ui->asciiLineEdit->clear();
   ui->asciiLineEdit->setFocus();
@@ -374,10 +378,6 @@ void MainWindow::on_sendBinaryButton_clicked()
   frame.append(ui->binaryLineEdit->text().toShort());
 
   if (ui->echoCheckBox->isChecked()) {
-    ui->terminalTextEdit->setFocus();
-    ui->terminalTextEdit->moveCursor(QTextCursor::End,
-                                     QTextCursor::MoveAnchor);
-
     ui->terminalTextEdit->append(frame);
     ui->terminalTextEdit->insertPlainText("\n");
   }
@@ -409,17 +409,6 @@ void MainWindow::on_actionAbout_triggered()
                      "repository</a>.<br/></center>");
 }
 
-void MainWindow::port_readyRead()
-{
-  ui->terminalTextEdit->setFocus();
-  ui->terminalTextEdit->moveCursor(QTextCursor::End,
-                                   QTextCursor::MoveAnchor);
-
-  ui->terminalTextEdit->insertPlainText(port->readAll());
-
-  ui->asciiLineEdit->setFocus();
-}
-
 void MainWindow::on_actionSerial_Port_toggled(bool checked)
 {
   if (checked)
@@ -432,4 +421,16 @@ void MainWindow::on_serialPortSettingsDock_visibilityChanged(bool visible)
 {
   if (!visible)
     ui->actionSerial_Port->setChecked(false);
+}
+
+void MainWindow::on_refreshRateTimer_timeout()
+{
+  QByteArray receivedCharacters = port->readAll();
+
+  if (receivedCharacters.length() != 0) {
+    ui->terminalTextEdit->moveCursor(QTextCursor::End,
+                                     QTextCursor::MoveAnchor);
+
+    ui->terminalTextEdit->insertPlainText(receivedCharacters);
+  }
 }
