@@ -44,12 +44,6 @@ MainWindow::MainWindow(QWidget *parent) :
   // Signal-Slot connections
   connect(port, SIGNAL(readyRead()),
           this, SLOT(port_readyRead()));
-
-  connect(ui->asciiLineEdit,   SIGNAL(returnPressed()),
-          ui->sendAsciiButton, SIGNAL(clicked()));
-
-  connect(ui->binaryLineEdit,   SIGNAL(returnPressed()),
-          ui->sendBinaryButton, SIGNAL(clicked()));
 }
 
 MainWindow::~MainWindow()
@@ -268,6 +262,16 @@ void MainWindow::on_binaryLineEdit_textEdited()
     ui->sendBinaryButton->setEnabled(true);
   else
     ui->sendBinaryButton->setDisabled(true);
+}
+
+void MainWindow::on_asciiLineEdit_returnPressed()
+{
+  on_sendAsciiButton_clicked();
+}
+
+void MainWindow::on_binaryLineEdit_returnPressed()
+{
+  on_sendBinaryButton_clicked();
 }
 
 void MainWindow::on_getPortsButton_clicked()

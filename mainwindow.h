@@ -60,6 +60,9 @@ class MainWindow : public QMainWindow
     void on_asciiLineEdit_textEdited();
     void on_binaryLineEdit_textEdited();
 
+    void on_asciiLineEdit_returnPressed();
+    void on_binaryLineEdit_returnPressed();
+
     void on_getPortsButton_clicked();
     void on_openPortButton_clicked();
     void on_startCommunicationButton_clicked();
@@ -68,11 +71,12 @@ class MainWindow : public QMainWindow
     void on_clearButton_clicked();
 
     void on_actionAbout_triggered();
+    void on_actionSerial_Port_toggled(bool);
+
+    void on_serialPortSettingsDock_visibilityChanged(bool visible);
 
     // Need manual connection
     void port_readyRead();
-    void on_actionSerial_Port_toggled(bool);
-    void on_serialPortSettingsDock_visibilityChanged(bool visible);
 };
 
 #endif // MAINWINDOW_H
