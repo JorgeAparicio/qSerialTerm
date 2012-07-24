@@ -22,26 +22,26 @@
 
 QT_USE_NAMESPACE_SERIALPORT
 
-/* CONSTRUCTORS AND DESTRUCTORS ***********************************************/
+/* CONSTRUCTORS AND DESTRUCTORS */
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   ui(new Ui::MainWindow),
   communicationOngoing(false)
 {
-  /* Configure the GUI */
+  // Configure the GUI
   ui->setupUi(this);
 
-  /* Initialize class members */
+  // Initialize class members
   port = new SerialPort(this);
 
-  /* Add validators to the QLineEdits */
+  // Add validators to the QLineEdits
   QRegExp asciiRegExp("[\\x0000-\\x007F]*");
 
   ui->asciiLineEdit->setValidator(new QRegExpValidator(asciiRegExp, this));
   ui->binaryLineEdit->setValidator(new QIntValidator(0, 255, this));
 
-  /* Signal-Slot connections */
+  // Signal-Slot connections
   connect(port, SIGNAL(readyRead()),
           this, SLOT(port_readyRead()));
 
@@ -57,7 +57,7 @@ MainWindow::~MainWindow()
   delete ui;
 }
 
-/* METHODS ********************************************************************/
+/* METHODS */
 
 void MainWindow::validateCommunicationSettings(void)
 {
@@ -90,7 +90,7 @@ void MainWindow::disableCommunicationSettings(void)
   ui->flowControlComboBox->setDisabled(true);
 }
 
-/* SLOTS **********************************************************************/
+/* SLOTS */
 
 void MainWindow::on_portComboBox_currentIndexChanged(int index)
 {
@@ -164,7 +164,7 @@ void MainWindow::on_dataBitsComboBox_currentIndexChanged(int index)
   validateCommunicationSettings();
 
   if (!ok) {
-    /* TODO: COULDN'T CHANGE THE DATA BITS */
+    // TODO Couldn't change the number of data bits
   }
 }
 
@@ -190,7 +190,7 @@ void MainWindow::on_stopBitsComboBox_currentIndexChanged(int index)
   validateCommunicationSettings();
 
   if (!ok) {
-    /* TODO: COULDN'T CHANGE THE STOP BITS */
+    // TODO Couldn't change the number of stop bits
   }
 }
 
@@ -222,7 +222,7 @@ void MainWindow::on_parityComboBox_currentIndexChanged(int index)
   validateCommunicationSettings();
 
   if (!ok) {
-    /* TODO: COULDN'T CHANGE THE PARITY */
+    // TODO Couldnt' change the parity
   }
 }
 
@@ -248,7 +248,7 @@ void MainWindow::on_flowControlComboBox_currentIndexChanged(int index)
   validateCommunicationSettings();
 
   if (!ok) {
-    /* TODO: COULDN'T CHANGE THE FLOW CONTROL */
+    // TODO Couldn't change the flow control
   }
 }
 

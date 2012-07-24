@@ -49,7 +49,7 @@ class MainWindow : public QMainWindow
     void disableCommunicationSettings(void);
 
   private slots:
-    /* Automatically connected */
+    // Automatically connected
     void on_portComboBox_currentIndexChanged(int);
     void on_baudRateComboBox_currentIndexChanged(QString const&);
     void on_dataBitsComboBox_currentIndexChanged(int);
@@ -69,7 +69,7 @@ class MainWindow : public QMainWindow
 
     void on_actionAbout_triggered();
 
-    /* Need manual connection */
+    // Need manual connection
     void port_readyRead();
     void on_actionSerial_Port_toggled(bool);
     void on_serialPortSettingsDock_visibilityChanged(bool visible);
