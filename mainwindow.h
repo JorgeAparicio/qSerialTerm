@@ -44,13 +44,13 @@ class MainWindow : public QMainWindow
     
   private:
     Ui::MainWindow *ui;
-    QtAddOn::SerialPort::SerialPort *port;
+    QtAddOn::SerialPort::SerialPort port;
     QList<QtAddOn::SerialPort::SerialPortInfo> portList;
-    QTimer *refreshRateTimer;
-    QFile *logFile;
-    QTextStream *logFileStream;
-    QTime *loggingTime;
-    QTimer *secondKeeper;
+    QTimer refreshRateTimer;
+    QFile logFile;
+    QTextStream logFileStream;
+    QTime loggingTime;
+    QTimer secondKeeper;
     bool isThereCommunication;
     bool isThereLogging;
 

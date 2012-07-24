@@ -30,19 +30,17 @@ QT_USE_NAMESPACE_SERIALPORT
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   ui(new Ui::MainWindow),
+  port(this),
   isThereCommunication(false),
   isThereLogging(false)
+
 {
   // Configure the GUI
   ui->setupUi(this);
 
   // Initialize class members
-  port = new SerialPort(this);
-  refreshRateTimer = new QTimer;
-  refreshRateTimer->setInterval(25);
-  secondKeeper = new QTimer(this);
-  secondKeeper->setInterval(1000);
-  loggingTime = new QTime();
+  refreshRateTimer.setInterval(25);
+  secondKeeper.setInterval(1000);
 
   // Add validators to the QLineEdits
   QRegExp asciiRegExp("[\\x0000-\\x007F]*");
@@ -51,12 +49,12 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->binaryLineEdit->setValidator(new QIntValidator(0, 255, this));
 
   // Signal-Slot connections
-  connect(refreshRateTimer, SIGNAL(timeout()),
-          this,             SLOT(on_refreshRateTimer_timeout()));
+  connect(&refreshRateTimer, SIGNAL(timeout()),
+          this,              SLOT(on_refreshRateTimer_timeout()));
 
-  connect(secondKeeper, SIGNAL(timeout()),
-          this,         SLOT(on_secondKeep_timeout()));
-}
+  connect(&secondKeeper, SIGNAL(timeout()),
+          this,          SLOT(on_secondKeep_timeout()));
+  }
 
 MainWindow::~MainWindow()
 {
@@ -68,7 +66,7 @@ MainWindow::~MainWindow()
 void MainWindow::validateCommunicationSettings(void)
 {
 
-  if (port->isOpen() &&
+  if (port.isOpen() &&
       (ui->baudRateComboBox->currentIndex() != -1) &&
       (ui->dataBitsComboBox->currentIndex() != -1) &&
       (ui->stopBitsComboBox->currentIndex() != -1) &&
@@ -111,7 +109,7 @@ void MainWindow::on_portComboBox_currentIndexChanged(int index)
   } else {
     ui->openPortButton->setEnabled(true);
 
-    port->setPort(portList[index].portName());
+    port.setPort(portList[index].portName());
 
     QList<qint32> baudRateList = portList[index].standardRates();
 
@@ -142,7 +140,7 @@ void MainWindow::on_portComboBox_currentIndexChanged(int index)
 
 void MainWindow::on_baudRateComboBox_currentIndexChanged(QString const& rate)
 {
-  port->setRate(qint32(rate.toLongLong()));
+  port.setRate(qint32(rate.toLongLong()));
 }
 
 void MainWindow::on_dataBitsComboBox_currentIndexChanged(int index)
@@ -154,16 +152,16 @@ void MainWindow::on_dataBitsComboBox_currentIndexChanged(int index)
       ui->startCommunicationButton->setDisabled(true);
       break;
     case 0:
-      ok = port->setDataBits(SerialPort::Data5);
+      ok = port.setDataBits(SerialPort::Data5);
       break;
     case 1:
-      ok = port->setDataBits(SerialPort::Data6);
+      ok = port.setDataBits(SerialPort::Data6);
       break;
     case 2:
-      ok = port->setDataBits(SerialPort::Data7);
+      ok = port.setDataBits(SerialPort::Data7);
       break;
     case 3:
-      ok = port->setDataBits(SerialPort::Data8);
+      ok = port.setDataBits(SerialPort::Data8);
       break;
   }
 
@@ -183,13 +181,13 @@ void MainWindow::on_stopBitsComboBox_currentIndexChanged(int index)
       ui->startCommunicationButton->setDisabled(true);
       break;
     case 0:
-      ok = port->setStopBits(SerialPort::OneStop);
+      ok = port.setStopBits(SerialPort::OneStop);
       break;
     case 1:
-      ok = port->setStopBits(SerialPort::OneAndHalfStop);
+      ok = port.setStopBits(SerialPort::OneAndHalfStop);
       break;
     case 2:
-      ok = port->setStopBits(SerialPort::TwoStop);
+      ok = port.setStopBits(SerialPort::TwoStop);
       break;
   }
 
@@ -209,19 +207,19 @@ void MainWindow::on_parityComboBox_currentIndexChanged(int index)
       ui->startCommunicationButton->setDisabled(true);
       break;
     case 0:
-      ok = port->setParity(SerialPort::NoParity);
+      ok = port.setParity(SerialPort::NoParity);
       break;
     case 1:
-      ok = port->setParity(SerialPort::EvenParity);
+      ok = port.setParity(SerialPort::EvenParity);
       break;
     case 2:
-      ok = port->setParity(SerialPort::OddParity);
+      ok = port.setParity(SerialPort::OddParity);
       break;
     case 3:
-      ok = port->setParity(SerialPort::SpaceParity);
+      ok = port.setParity(SerialPort::SpaceParity);
       break;
     case 4:
-      ok = port->setParity(SerialPort::MarkParity);
+      ok = port.setParity(SerialPort::MarkParity);
       break;
   }
 
@@ -241,13 +239,13 @@ void MainWindow::on_flowControlComboBox_currentIndexChanged(int index)
       ui->startCommunicationButton->setDisabled(true);
       break;
     case 0:
-      ok = port->setFlowControl(SerialPort::NoFlowControl);
+      ok = port.setFlowControl(SerialPort::NoFlowControl);
       break;
     case 1:
-      ok = port->setFlowControl(SerialPort::HardwareControl);
+      ok = port.setFlowControl(SerialPort::HardwareControl);
       break;
     case 2:
-      ok = port->setFlowControl(SerialPort::SoftwareControl);
+      ok = port.setFlowControl(SerialPort::SoftwareControl);
       break;
   }
 
@@ -304,12 +302,12 @@ void MainWindow::on_getPortsButton_clicked()
 
 void MainWindow::on_openPortButton_clicked()
 {
-  if (port->isOpen()) {
+  if (port.isOpen()) {
 
     if (isThereCommunication)
       on_startCommunicationButton_clicked();
 
-    port->close();
+    port.close();
 
     ui->portStatusLabel->setText("<font color=red>Closed");
     ui->openPortButton->setText("Open");
@@ -325,7 +323,7 @@ void MainWindow::on_openPortButton_clicked()
     ui->flowControlComboBox->setCurrentIndex(-1);
 
   } else {
-    if (port->open(QIODevice::ReadWrite)) {
+    if (port.open(QIODevice::ReadWrite)) {
 
       ui->portStatusLabel->setText("<font color=green>Open");
       ui->openPortButton->setText("Close");
@@ -356,7 +354,7 @@ void MainWindow::on_startCommunicationButton_clicked()
 
     isThereCommunication = false;
 
-    refreshRateTimer->stop();
+    refreshRateTimer.stop();
   } else {
     disableCommunicationSettings();
 
@@ -369,7 +367,7 @@ void MainWindow::on_startCommunicationButton_clicked()
     on_binaryLineEdit_textEdited();
     on_asciiLineEdit_textEdited();
 
-    refreshRateTimer->start();
+    refreshRateTimer.start();
   }
 }
 
@@ -381,7 +379,7 @@ void MainWindow::on_sendAsciiButton_clicked()
     ui->terminalTextEdit->append(ascii);
     ui->terminalTextEdit->insertPlainText("\n");
   }
-  port->write(ascii.toLocal8Bit());
+  port.write(ascii.toLocal8Bit());
 
   ui->asciiLineEdit->clear();
   ui->asciiLineEdit->setFocus();
@@ -398,7 +396,7 @@ void MainWindow::on_sendBinaryButton_clicked()
     ui->terminalTextEdit->insertPlainText("\n");
   }
 
-  port->write(frame);
+  port.write(frame);
 
   ui->binaryLineEdit->clear();
   ui->binaryLineEdit->setFocus();
@@ -417,40 +415,41 @@ void MainWindow::on_browseButton_clicked()
 void MainWindow::on_startLoggingButton_clicked()
 {
   if (isThereLogging) {
-    secondKeeper->stop();
+    secondKeeper.stop();
 
-    logFile->close();
+    logFile.close();
     ui->startLoggingButton->setText("Start");
 
     ui->appendCheckBox->setEnabled(true);
 
     ui->loggingTimeLabel->setText("<font color=red>" +
-                                  loggingTime->toString("hh:mm:ss"));
+                                  loggingTime.toString("hh:mm:ss"));
 
     isThereLogging = false;
   } else {
     bool ok;
 
-    logFile = new QFile(ui->filePathEdit->text());
+    logFile.setFileName(ui->filePathEdit->text());
+
     if (ui->appendCheckBox->isChecked())
-      ok = logFile->open(QIODevice::WriteOnly |
+      ok = logFile.open(QIODevice::WriteOnly |
                          QIODevice::Text |
                          QIODevice::Append);
     else
-      ok = logFile->open(QIODevice::WriteOnly |
+      ok = logFile.open(QIODevice::WriteOnly |
                          QIODevice::Text);
     if (ok) {
-      logFileStream = new QTextStream(logFile);
+      logFileStream.setDevice(&logFile);
 
       ui->filePathEdit->setDisabled(true);
       ui->startLoggingButton->setText("Stop");
 
       ui->appendCheckBox->setDisabled(true);
 
-      loggingTime->setHMS(0, 0, 0);
+      loggingTime.setHMS(0, 0, 0);
       ui->loggingTimeLabel->setText("<font color=red>" +
-                                    loggingTime->toString("hh:mm:ss"));
-      secondKeeper->start();
+                                    loggingTime.toString("hh:mm:ss"));
+      secondKeeper.start();
 
       isThereLogging = true;
     } else {
@@ -506,7 +505,7 @@ void MainWindow::on_loggingDockWidget_visibilityChanged(bool visible)
 
 void MainWindow::on_refreshRateTimer_timeout()
 {
-  QByteArray receivedCharacters = port->readAll();
+  QByteArray receivedCharacters = port.readAll();
 
   if (receivedCharacters.length() != 0) {
     ui->terminalTextEdit->moveCursor(QTextCursor::End,
@@ -515,14 +514,14 @@ void MainWindow::on_refreshRateTimer_timeout()
     ui->terminalTextEdit->insertPlainText(receivedCharacters);
 
     if (isThereLogging)
-      *logFileStream << receivedCharacters;
+      logFileStream << receivedCharacters;
   }
 }
 
 void MainWindow::on_secondKeep_timeout()
 {
-  *loggingTime = loggingTime->addSecs(1);
+  loggingTime = loggingTime.addSecs(1);
 
   ui->loggingTimeLabel->setText("<font color=green>" +
-                                loggingTime->toString("hh:mm:ss"));
+                                loggingTime.toString("hh:mm:ss"));
 }
