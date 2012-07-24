@@ -414,3 +414,17 @@ void MainWindow::port_readyRead()
 
   ui->asciiLineEdit->setFocus();
 }
+
+void MainWindow::on_actionSerial_Port_toggled(bool checked)
+{
+  if (checked)
+    ui->serialPortSettingsDock->show();
+  else
+    ui->serialPortSettingsDock->hide();
+}
+
+void MainWindow::on_serialPortSettingsDock_visibilityChanged(bool visible)
+{
+  if (!visible)
+    ui->actionSerial_Port->setChecked(false);
+}

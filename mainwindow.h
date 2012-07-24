@@ -71,6 +71,8 @@ class MainWindow : public QMainWindow
 
     /* Need manual connection */
     void port_readyRead();
+    void on_actionSerial_Port_toggled(bool);
+    void on_serialPortSettingsDock_visibilityChanged(bool visible);
 };
 
 #endif // MAINWINDOW_H
