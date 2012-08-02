@@ -23,6 +23,8 @@
 #include <QFileDialog>
 #include <QDateTime>
 
+#include "aboutdialog.h"
+
 QT_USE_NAMESPACE_SERIALPORT
 
 /* CONSTRUCTORS AND DESTRUCTORS */
@@ -461,18 +463,11 @@ void MainWindow::on_startLoggingButton_clicked()
 
 void MainWindow::on_actionAbout_triggered()
 {
-  QMessageBox::about(this, "About",
-                     "<center><h1>qSerialTerm</h1><br/>"
-                     "qSerialTerm is a simple serial port terminal emulator."
-                     "<br/><br/>Copyright (C) 2012 Jorge Aparicio "
-                     "&lt;<a href=\"mailto:jorge.aparicio.r@gmail.com\">"
-                     "jorge.aparicio.r@gmail.com</a>&gt;<br/><br/>"
-                     "qserialTerm is licensed under the: <br/><br/>"
-                     "<a href=\"http://www.gnu.org/licenses/\">"
-                     "GNU General Public License(GPL) v3</a><br/><br/>"
-                     "The qSerialTerm source code can be found in this "
-                     "<a href=\"https://github.com/JorgeAparicio/qSerialTerm\">"
-                     "repository</a>.<br/></center>");
+  AboutDialog *aboutDialog = new AboutDialog(this);
+
+  aboutDialog->setAttribute(Qt::WA_DeleteOnClose);
+
+  aboutDialog->show();
 }
 
 void MainWindow::on_actionSerial_Port_toggled(bool checked)
