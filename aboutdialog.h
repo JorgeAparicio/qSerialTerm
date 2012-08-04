@@ -16,7 +16,7 @@ class AboutDialog : public QDialog
     ~AboutDialog();
     
   private slots:
-    void on_pushButton_clicked();
+    void on_okPushButton_clicked();
 
   private:
     Ui::AboutDialog *ui;

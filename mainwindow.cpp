@@ -20,445 +20,35 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QFileDialog>
-#include <QDateTime>
-
-#include "aboutdialog.h"
-
-QT_USE_NAMESPACE_SERIALPORT
-
-/* CONSTRUCTORS AND DESTRUCTORS */
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
-  ui(new Ui::MainWindow),
-  port(this),
-  isThereCommunication(false),
-  isThereLogging(false)
-
+  ui(new Ui::MainWindow)
 {
-  // Configure the GUI
   ui->setupUi(this);
 
-  // Initialize class members
-  refreshRateTimer.setInterval(25);
-  secondKeeper.setInterval(1000);
+  this->showMaximized();
 
-  // Add validators to the QLineEdits
-  QRegExp asciiRegExp("[\\x0000-\\x007F]*");
+  connect(ui->serialPortWidget, SIGNAL(read(QByteArray)),
+          ui->loggerWidget,     SLOT(append(QByteArray)));
 
-  ui->asciiLineEdit->setValidator(new QRegExpValidator(asciiRegExp, this));
-  ui->binaryLineEdit->setValidator(new QIntValidator(0, 255, this));
+  connect(ui->messageWidget,    SIGNAL(send(QByteArray)),
+          ui->serialPortWidget, SLOT(write(QByteArray)));
 
-  // Signal-Slot connections
-  connect(&refreshRateTimer, SIGNAL(timeout()),
-          this,              SLOT(on_refreshRateTimer_timeout()));
+  connect(ui->serialPortWidget, SIGNAL(communicationStart(bool)),
+          ui->actionTerminal,   SLOT(setDisabled(bool)));
 
-  connect(&secondKeeper, SIGNAL(timeout()),
-          this,          SLOT(on_secondKeep_timeout()));
-  }
+  fromDeviceActionGroup = new QActionGroup(this);
+
+  fromDeviceActionGroup->setExclusive(true);
+  fromDeviceActionGroup->addAction(ui->actionTerminal);
+  ui->actionTerminal->setChecked(true);
+}
 
 MainWindow::~MainWindow()
 {
   delete ui;
-}
-
-/* METHODS */
-
-void MainWindow::validateCommunicationSettings(void)
-{
-
-  if (port.isOpen() &&
-      (ui->baudRateComboBox->currentIndex() != -1) &&
-      (ui->dataBitsComboBox->currentIndex() != -1) &&
-      (ui->stopBitsComboBox->currentIndex() != -1) &&
-      (ui->parityComboBox->currentIndex() != -1) &&
-      (ui->flowControlComboBox->currentIndex() != -1))
-    ui->startCommunicationButton->setEnabled(true);
-
-}
-
-void MainWindow::enableCommunicationSettings(void)
-{
-  ui->baudRateComboBox->setEnabled(true);
-  ui->dataBitsComboBox->setEnabled(true);
-  ui->stopBitsComboBox->setEnabled(true);
-  ui->parityComboBox->setEnabled(true);
-  ui->flowControlComboBox->setEnabled(true);
-}
-
-void MainWindow::disableCommunicationSettings(void)
-{
-  ui->baudRateComboBox->setDisabled(true);
-  ui->dataBitsComboBox->setDisabled(true);
-  ui->stopBitsComboBox->setDisabled(true);
-  ui->parityComboBox->setDisabled(true);
-  ui->flowControlComboBox->setDisabled(true);
-}
-
-/* SLOTS */
-
-void MainWindow::on_portComboBox_currentIndexChanged(int index)
-{
-  if (index == -1) {
-    ui->openPortButton->setDisabled(true);
-
-    ui->baudRateComboBox->clear();
-
-    ui->pidLabel->setText("-");
-    ui->vidLabel->setText("-");
-    ui->portStatusLabel->setText("<font color=red>No port select");
-  } else {
-    ui->openPortButton->setEnabled(true);
-
-    port.setPort(portList[index].portName());
-
-    QList<qint32> baudRateList = portList[index].standardRates();
-
-    ui->baudRateComboBox->clear();
-
-    foreach(qint32 baudRate, baudRateList)
-      ui->baudRateComboBox->addItem(QString::number(baudRate));
-
-    ui->baudRateComboBox->setCurrentIndex(-1);
-
-    QString vid = portList[index].vendorIdentifier();
-
-    if (vid.isEmpty())
-      ui->vidLabel->setText("-");
-    else
-      ui->vidLabel->setText("0x" + vid);
-
-    QString pid = portList[index].productIdentifier();
-
-    if (pid.isEmpty())
-      ui->pidLabel->setText("-");
-    else
-      ui->pidLabel->setText("0x" + pid);
-
-    ui->portStatusLabel->setText("<font color=red>Closed");
-  }
-}
-
-void MainWindow::on_baudRateComboBox_currentIndexChanged(QString const& rate)
-{
-  port.setRate(qint32(rate.toLongLong()));
-}
-
-void MainWindow::on_dataBitsComboBox_currentIndexChanged(int index)
-{
-  bool ok = true;
-
-  switch(index) {
-    case -1:
-      ui->startCommunicationButton->setDisabled(true);
-      break;
-    case 0:
-      ok = port.setDataBits(SerialPort::Data5);
-      break;
-    case 1:
-      ok = port.setDataBits(SerialPort::Data6);
-      break;
-    case 2:
-      ok = port.setDataBits(SerialPort::Data7);
-      break;
-    case 3:
-      ok = port.setDataBits(SerialPort::Data8);
-      break;
-  }
-
-  validateCommunicationSettings();
-
-  if (!ok) {
-    // TODO Couldn't change the number of data bits
-  }
-}
-
-void MainWindow::on_stopBitsComboBox_currentIndexChanged(int index)
-{
-  bool ok = true;
-
-  switch(index) {
-    case -1:
-      ui->startCommunicationButton->setDisabled(true);
-      break;
-    case 0:
-      ok = port.setStopBits(SerialPort::OneStop);
-      break;
-    case 1:
-      ok = port.setStopBits(SerialPort::OneAndHalfStop);
-      break;
-    case 2:
-      ok = port.setStopBits(SerialPort::TwoStop);
-      break;
-  }
-
-  validateCommunicationSettings();
-
-  if (!ok) {
-    // TODO Couldn't change the number of stop bits
-  }
-}
-
-void MainWindow::on_parityComboBox_currentIndexChanged(int index)
-{
-  bool ok = true;
-
-  switch(index) {
-    case -1:
-      ui->startCommunicationButton->setDisabled(true);
-      break;
-    case 0:
-      ok = port.setParity(SerialPort::NoParity);
-      break;
-    case 1:
-      ok = port.setParity(SerialPort::EvenParity);
-      break;
-    case 2:
-      ok = port.setParity(SerialPort::OddParity);
-      break;
-    case 3:
-      ok = port.setParity(SerialPort::SpaceParity);
-      break;
-    case 4:
-      ok = port.setParity(SerialPort::MarkParity);
-      break;
-  }
-
-  validateCommunicationSettings();
-
-  if (!ok) {
-    // TODO Couldnt' change the parity
-  }
-}
-
-void MainWindow::on_flowControlComboBox_currentIndexChanged(int index)
-{
-  bool ok = true;
-
-  switch(index) {
-    case -1:
-      ui->startCommunicationButton->setDisabled(true);
-      break;
-    case 0:
-      ok = port.setFlowControl(SerialPort::NoFlowControl);
-      break;
-    case 1:
-      ok = port.setFlowControl(SerialPort::HardwareControl);
-      break;
-    case 2:
-      ok = port.setFlowControl(SerialPort::SoftwareControl);
-      break;
-  }
-
-  validateCommunicationSettings();
-
-  if (!ok) {
-    // TODO Couldn't change the flow control
-  }
-}
-
-void MainWindow::on_asciiLineEdit_textEdited()
-{
-  if (isThereCommunication &&
-      ui->asciiLineEdit->hasAcceptableInput())
-    ui->sendAsciiButton->setEnabled(true);
-  else
-    ui->sendAsciiButton->setDisabled(true);
-}
-
-void MainWindow::on_binaryLineEdit_textEdited()
-{
-  if (isThereCommunication &&
-      ui->binaryLineEdit->hasAcceptableInput())
-    ui->sendBinaryButton->setEnabled(true);
-  else
-    ui->sendBinaryButton->setDisabled(true);
-}
-
-void MainWindow::on_filePathEdit_textChanged(const QString &str)
-{
-  ui->startLoggingButton->setEnabled(str.length() != 0);
-}
-
-
-void MainWindow::on_asciiLineEdit_returnPressed()
-{
-  on_sendAsciiButton_clicked();
-}
-
-void MainWindow::on_binaryLineEdit_returnPressed()
-{
-  on_sendBinaryButton_clicked();
-}
-
-void MainWindow::on_getPortsButton_clicked()
-{
-  portList = SerialPortInfo::availablePorts();
-
-  ui->portComboBox->clear();
-
-  foreach(SerialPortInfo entry, portList)
-    ui->portComboBox->addItem(entry.portName());
-}
-
-void MainWindow::on_openPortButton_clicked()
-{
-  if (port.isOpen()) {
-
-    if (isThereCommunication)
-      on_startCommunicationButton_clicked();
-
-    port.close();
-
-    ui->portStatusLabel->setText("<font color=red>Closed");
-    ui->openPortButton->setText("Open");
-
-    ui->portComboBox->setEnabled(true);
-
-    disableCommunicationSettings();
-
-    ui->baudRateComboBox->setCurrentIndex(-1);
-    ui->dataBitsComboBox->setCurrentIndex(-1);
-    ui->stopBitsComboBox->setCurrentIndex(-1);
-    ui->parityComboBox->setCurrentIndex(-1);
-    ui->flowControlComboBox->setCurrentIndex(-1);
-
-  } else {
-    if (port.open(QIODevice::ReadWrite)) {
-
-      ui->portStatusLabel->setText("<font color=green>Open");
-      ui->openPortButton->setText("Close");
-
-      enableCommunicationSettings();
-
-      ui->portComboBox->setDisabled(true);
-
-    } else {
-      QMessageBox::warning(this, "Couldn't open port", "qSerialTerm couldn't "
-                           "open the requested port, check that the selected "
-                           "port is not already open.");
-    }
-  }
-}
-
-void MainWindow::on_startCommunicationButton_clicked()
-{
-  if (isThereCommunication) {
-    enableCommunicationSettings();
-
-    ui->sendAsciiButton->setDisabled(true);
-    ui->sendBinaryButton->setDisabled(true);
-
-    ui->startCommunicationButton->setText("Start");
-
-    ui->communicationStatusLabel->setText("<font color=red>No communication");
-
-    isThereCommunication = false;
-
-    refreshRateTimer.stop();
-  } else {
-    disableCommunicationSettings();
-
-    ui->startCommunicationButton->setText("Stop");
-
-    ui->communicationStatusLabel->setText("<font color=green>Ongoing");
-
-    isThereCommunication = true;
-
-    on_binaryLineEdit_textEdited();
-    on_asciiLineEdit_textEdited();
-
-    refreshRateTimer.start();
-  }
-}
-
-void MainWindow::on_sendAsciiButton_clicked()
-{
-  QString ascii(ui->asciiLineEdit->text());
-
-  if (ui->echoCheckBox->isChecked()) {
-    ui->terminalTextEdit->append(ascii);
-    ui->terminalTextEdit->insertPlainText("\n");
-  }
-  port.write(ascii.toLocal8Bit());
-
-  ui->asciiLineEdit->clear();
-  ui->asciiLineEdit->setFocus();
-}
-
-void MainWindow::on_sendBinaryButton_clicked()
-{
-  QByteArray frame;
-
-  frame.append(ui->binaryLineEdit->text().toShort());
-
-  if (ui->echoCheckBox->isChecked()) {
-    ui->terminalTextEdit->append(frame);
-    ui->terminalTextEdit->insertPlainText("\n");
-  }
-
-  port.write(frame);
-
-  ui->binaryLineEdit->clear();
-  ui->binaryLineEdit->setFocus();
-}
-
-void MainWindow::on_clearButton_clicked()
-{
-  ui->terminalTextEdit->clear();
-}
-
-void MainWindow::on_browseButton_clicked()
-{
-  ui->filePathEdit->setText(QFileDialog::getSaveFileName(this, "Save file"));
-}
-
-void MainWindow::on_startLoggingButton_clicked()
-{
-  if (isThereLogging) {
-    secondKeeper.stop();
-
-    logFile.close();
-    ui->startLoggingButton->setText("Start");
-
-    ui->appendCheckBox->setEnabled(true);
-
-    ui->loggingTimeLabel->setText("<font color=red>" +
-                                  loggingTime.toString("hh:mm:ss"));
-
-    isThereLogging = false;
-  } else {
-    bool ok;
-
-    logFile.setFileName(ui->filePathEdit->text());
-
-    if (ui->appendCheckBox->isChecked())
-      ok = logFile.open(QIODevice::WriteOnly |
-                         QIODevice::Text |
-                         QIODevice::Append);
-    else
-      ok = logFile.open(QIODevice::WriteOnly |
-                         QIODevice::Text);
-    if (ok) {
-      logFileStream.setDevice(&logFile);
-
-      ui->filePathEdit->setDisabled(true);
-      ui->startLoggingButton->setText("Stop");
-
-      ui->appendCheckBox->setDisabled(true);
-
-      loggingTime.setHMS(0, 0, 0);
-      ui->loggingTimeLabel->setText("<font color=red>" +
-                                    loggingTime.toString("hh:mm:ss"));
-      secondKeeper.start();
-
-      isThereLogging = true;
-    } else {
-      QMessageBox::warning(this, "Couldn't open file", "qSerialTerm couldn't "
-                           "open the requested file, check the file path.");
-    }
-  }
 }
 
 void MainWindow::on_actionAbout_triggered()
@@ -470,53 +60,37 @@ void MainWindow::on_actionAbout_triggered()
   aboutDialog->show();
 }
 
-void MainWindow::on_actionSerial_Port_toggled(bool checked)
+void MainWindow::on_actionTerminal_toggled(bool checked)
 {
-  if (checked)
-    ui->serialPortSettingsDock->show();
-  else
-    ui->serialPortSettingsDock->hide();
-}
+  if (checked) {
+    terminalWidget = new TerminalWidget;
 
-void MainWindow::on_actionLogging_toggled(bool checked)
-{
-  if (checked)
-    ui->loggingDockWidget->show();
-  else
-    ui->loggingDockWidget->hide();
-}
+    ui->fromDeviceGridLayout->addWidget(terminalWidget);
 
-void MainWindow::on_serialPortSettingsDock_visibilityChanged(bool visible)
-{
-  if (!visible)
-    ui->actionSerial_Port->setChecked(false);
-}
+    terminalWidget->show();
 
-void MainWindow::on_loggingDockWidget_visibilityChanged(bool visible)
-{
-  if (!visible)
-    ui->actionLogging->setChecked(false);
-}
+    connect(ui->serialPortWidget, SIGNAL(read(QByteArray)),
+            terminalWidget,       SLOT(display(QByteArray)));
 
-void MainWindow::on_refreshRateTimer_timeout()
-{
-  QByteArray receivedCharacters = port.readAll();
-
-  if (receivedCharacters.length() != 0) {
-    ui->terminalTextEdit->moveCursor(QTextCursor::End,
-                                     QTextCursor::MoveAnchor);
-
-    ui->terminalTextEdit->insertPlainText(receivedCharacters);
-
-    if (isThereLogging)
-      logFileStream << receivedCharacters;
+    connect(ui->messageWidget,  SIGNAL(echo(QByteArray)),
+            terminalWidget,     SLOT(display(QByteArray)));
+  } else {
+    delete terminalWidget;
+    terminalWidget = 0;
   }
 }
 
-void MainWindow::on_secondKeep_timeout()
+void MainWindow::on_serialPortDockWidget_visibilityChanged(bool)
 {
-  loggingTime = loggingTime.addSecs(1);
+  ui->actionSerial_Port->setChecked(!ui->serialPortDockWidget->isHidden());
+}
 
-  ui->loggingTimeLabel->setText("<font color=green>" +
-                                loggingTime.toString("hh:mm:ss"));
+void MainWindow::on_loggerDockWidget_visibilityChanged(bool)
+{
+  ui->actionLogger->setChecked(!ui->loggerDockWidget->isHidden());
+}
+
+void MainWindow::on_messageDockWidget_visibilityChanged(bool)
+{
+  ui->actionMessage->setChecked(!ui->messageDockWidget->isHidden());
 }

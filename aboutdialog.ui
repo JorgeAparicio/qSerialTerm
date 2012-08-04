@@ -24,7 +24,7 @@
    <item row="1" column="0">
     <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>A Qt based Serial Port emulator</string>
+      <string>A Qt based Serial Port terminal emulator</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -78,7 +78,7 @@
    <item row="7" column="0">
     <widget class="QLabel" name="label_8">
      <property name="text">
-      <string>&lt;center&gt;&lt;a href=&quot;http://www.gnu.org/copyleft/gpl.html&quot;&gt;GNU General Public License(GPL) v3&lt;/a&gt;&lt;/center&gt;</string>
+      <string>&lt;center&gt;&lt;a href=&quot;http://www.gnu.org/copyleft/gpl.html&quot;&gt;GNU General Public License (GPL) v3&lt;/a&gt;&lt;/center&gt;</string>
      </property>
      <property name="openExternalLinks">
       <bool>true</bool>
@@ -127,7 +127,7 @@ repository&lt;/a&gt;&lt;/center&gt;</string>
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="okPushButton">
        <property name="text">
         <string>OK</string>
        </property>

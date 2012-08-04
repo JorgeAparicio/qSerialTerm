@@ -21,14 +21,14 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QMessageBox>
-#include <QTimer>
-#include <QTime>
-#include <QFile>
-#include <QTextStream>
+#include <QActionGroup>
 
 #include <QtAddOnSerialPort/serialport.h>
 #include <QtAddOnSerialPort/serialportinfo.h>
+
+#include "messagewidget.h"
+#include "terminalwidget.h"
+#include "aboutdialog.h"
 
 namespace Ui {
   class MainWindow;
@@ -42,59 +42,19 @@ class MainWindow : public QMainWindow
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     
-  private:
-    Ui::MainWindow *ui;
-    QtAddOn::SerialPort::SerialPort port;
-    QList<QtAddOn::SerialPort::SerialPortInfo> portList;
-    QTimer refreshRateTimer;
-    QFile logFile;
-    QTextStream logFileStream;
-    QTime loggingTime;
-    QTimer secondKeeper;
-    bool isThereCommunication;
-    bool isThereLogging;
-
-    void validateCommunicationSettings(void);
-    void enableCommunicationSettings(void);
-    void disableCommunicationSettings(void);
-
   private slots:
-    // Automatically connected
-    void on_portComboBox_currentIndexChanged(int);
-    void on_baudRateComboBox_currentIndexChanged(QString const&);
-    void on_dataBitsComboBox_currentIndexChanged(int);
-    void on_stopBitsComboBox_currentIndexChanged(int);
-    void on_parityComboBox_currentIndexChanged(int);
-    void on_flowControlComboBox_currentIndexChanged(int);
-
-    void on_asciiLineEdit_textEdited();
-    void on_binaryLineEdit_textEdited();
-
-    void on_filePathEdit_textChanged(const QString &);
-
-    void on_asciiLineEdit_returnPressed();
-    void on_binaryLineEdit_returnPressed();
-
-    void on_getPortsButton_clicked();
-    void on_openPortButton_clicked();
-    void on_startCommunicationButton_clicked();
-    void on_sendAsciiButton_clicked();
-    void on_sendBinaryButton_clicked();
-    void on_clearButton_clicked();
-    void on_browseButton_clicked();
-    void on_startLoggingButton_clicked();
-
     void on_actionAbout_triggered();
 
-    void on_actionSerial_Port_toggled(bool);
-    void on_actionLogging_toggled(bool);
+    void on_actionTerminal_toggled(bool);
 
-    void on_serialPortSettingsDock_visibilityChanged(bool);
-    void on_loggingDockWidget_visibilityChanged(bool);
+    void on_serialPortDockWidget_visibilityChanged(bool);
+    void on_loggerDockWidget_visibilityChanged(bool);
+    void on_messageDockWidget_visibilityChanged(bool);
 
-    // Need manual connection
-    void on_refreshRateTimer_timeout();
-    void on_secondKeep_timeout();
+  private:
+    Ui::MainWindow *ui;
+    TerminalWidget *terminalWidget;
+    QActionGroup *fromDeviceActionGroup;
 };
 
 #endif // MAINWINDOW_H

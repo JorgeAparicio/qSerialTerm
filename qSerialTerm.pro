@@ -31,13 +31,25 @@ TARGET      =   qSerialTerm
 TEMPLATE    =   app
 SOURCES     +=  main.cpp\
               mainwindow.cpp \
-    aboutdialog.cpp
+    aboutdialog.cpp \
+    loggerwidget.cpp \
+    serialportwidget.cpp \
+    messagewidget.cpp \
+    terminalwidget.cpp
 
 HEADERS     +=  mainwindow.h \
-    aboutdialog.h
+    aboutdialog.h \
+    loggerwidget.h \
+    serialportwidget.h \
+    messagewidget.h \
+    terminalwidget.h
 
 FORMS       +=  mainwindow.ui \
-    aboutdialog.ui
+    aboutdialog.ui \
+    loggerwidget.ui \
+    serialportwidget.ui \
+    messagewidget.ui \
+    terminalwidget.ui
 
 OTHER_FILES +=  \
                 README \

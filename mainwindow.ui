@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>661</width>
-    <height>582</height>
+    <width>332</width>
+    <height>235</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,174 +15,14 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_5">
-    <item row="1" column="0">
+    <item row="0" column="0">
      <widget class="QGroupBox" name="fromDeviceGroupBox">
       <property name="title">
        <string>From Device</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="1" column="0">
-        <widget class="QTextEdit" name="terminalTextEdit">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <spacer name="horizontalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QPushButton" name="clearButton">
-           <property name="text">
-            <string>Clear</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QGroupBox" name="toDeviceGroupBox">
-      <property name="title">
-       <string>To Device</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_4">
        <item row="0" column="0">
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
-             <item>
-              <widget class="QLabel" name="label_9">
-               <property name="text">
-                <string>ASCII:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_10">
-               <property name="text">
-                <string>Binary (0-255):</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout">
-             <item>
-              <widget class="QLineEdit" name="asciiLineEdit"/>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="binaryLineEdit"/>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_2">
-             <item>
-              <widget class="QPushButton" name="sendAsciiButton">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>Send</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPushButton" name="sendBinaryButton">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>Send</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_5">
-           <item>
-            <spacer name="horizontalSpacer_9">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>37</width>
-               <height>24</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="echoCheckBox">
-             <property name="text">
-              <string>Local Echo</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_10">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>37</width>
-               <height>24</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-       <item row="0" column="1">
-        <spacer name="horizontalSpacer_12">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>60</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
+        <layout class="QGridLayout" name="fromDeviceGridLayout"/>
        </item>
       </layout>
      </widget>
@@ -194,7 +34,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>661</width>
+     <width>332</width>
      <height>25</height>
     </rect>
    </property>
@@ -210,12 +50,21 @@
     </property>
     <widget class="QMenu" name="menuToolbar">
      <property name="title">
-      <string>Toolbar</string>
+      <string>Dock</string>
      </property>
+     <addaction name="actionLogger"/>
+     <addaction name="actionMessage"/>
      <addaction name="actionSerial_Port"/>
-     <addaction name="actionLogging"/>
+    </widget>
+    <widget class="QMenu" name="menuFrom_Device">
+     <property name="title">
+      <string>From Device</string>
+     </property>
+     <addaction name="separator"/>
+     <addaction name="actionTerminal"/>
     </widget>
     <addaction name="menuToolbar"/>
+    <addaction name="menuFrom_Device"/>
    </widget>
    <addaction name="menuView"/>
    <addaction name="menuAbout"/>
@@ -229,7 +78,7 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
-  <widget class="QDockWidget" name="serialPortSettingsDock">
+  <widget class="QDockWidget" name="serialPortDockWidget">
    <property name="sizePolicy">
     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
      <horstretch>0</horstretch>
@@ -238,7 +87,7 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>197</width>
+     <width>207</width>
      <height>121</height>
     </size>
    </property>
@@ -250,7 +99,7 @@
    </attribute>
    <widget class="QWidget" name="dockWidgetContents">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
+     <item row="1" column="0">
       <widget class="QScrollArea" name="scrollArea">
        <property name="verticalScrollBarPolicy">
         <enum>Qt::ScrollBarAsNeeded</enum>
@@ -265,375 +114,14 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-231</y>
-          <width>181</width>
-          <height>637</height>
+          <y>0</y>
+          <width>187</width>
+          <height>76</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
-         <item row="18" column="0">
-          <widget class="QLabel" name="label_14">
-           <property name="contextMenuPolicy">
-            <enum>Qt::NoContextMenu</enum>
-           </property>
-           <property name="text">
-            <string>Flow control:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>Port:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QComboBox" name="portComboBox"/>
-         </item>
-         <item row="2" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout">
-           <item>
-            <spacer name="horizontalSpacer">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="getPortsButton">
-             <property name="text">
-              <string>Get</string>
-             </property>
-             <property name="autoDefault">
-              <bool>true</bool>
-             </property>
-             <property name="default">
-              <bool>false</bool>
-             </property>
-             <property name="flat">
-              <bool>false</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>PID:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="pidLabel">
-           <property name="text">
-            <string>-</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="label_3">
-           <property name="text">
-            <string>VID:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="0">
-          <widget class="QLabel" name="vidLabel">
-           <property name="text">
-            <string>-</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_4">
-           <item>
-            <spacer name="horizontalSpacer_5">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="openPortButton">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>Open</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_6">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </item>
-         <item row="8" column="0">
-          <widget class="QLabel" name="label_4">
-           <property name="text">
-            <string>Status:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="9" column="0">
-          <widget class="QLabel" name="portStatusLabel">
-           <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;No port selected&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="10" column="0">
-          <widget class="QLabel" name="label_5">
-           <property name="text">
-            <string>Baud rate:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="11" column="0">
-          <widget class="QComboBox" name="baudRateComboBox">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="12" column="0">
-          <widget class="QLabel" name="label_11">
-           <property name="text">
-            <string>Data bits:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="13" column="0">
-          <widget class="QComboBox" name="dataBitsComboBox">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="currentIndex">
-            <number>-1</number>
-           </property>
-           <item>
-            <property name="text">
-             <string>5</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>6</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>7</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>8</string>
-            </property>
-           </item>
-          </widget>
-         </item>
          <item row="14" column="0">
-          <widget class="QLabel" name="label_13">
-           <property name="text">
-            <string>Stop bits:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="15" column="0">
-          <widget class="QComboBox" name="stopBitsComboBox">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="currentIndex">
-            <number>-1</number>
-           </property>
-           <item>
-            <property name="text">
-             <string>1</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>1.5</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>2</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="16" column="0">
-          <widget class="QLabel" name="label_12">
-           <property name="text">
-            <string>Parity:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="17" column="0">
-          <widget class="QComboBox" name="parityComboBox">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="currentIndex">
-            <number>-1</number>
-           </property>
-           <item>
-            <property name="text">
-             <string>No</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Even</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Odd</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Space</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Mark</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="19" column="0">
-          <widget class="QComboBox" name="flowControlComboBox">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="currentIndex">
-            <number>-1</number>
-           </property>
-           <item>
-            <property name="text">
-             <string>No</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Hardware</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Software</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="20" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_6">
-           <item>
-            <spacer name="horizontalSpacer_7">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="startCommunicationButton">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>Start</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_8">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </item>
-         <item row="21" column="0">
-          <widget class="QLabel" name="label_8">
-           <property name="text">
-            <string>Status:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="22" column="0">
-          <widget class="QLabel" name="communicationStatusLabel">
-           <property name="text">
-            <string>&lt;font color = red&gt;No communication</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
+          <widget class="SerialPortWidget" name="serialPortWidget" native="true"/>
          </item>
         </layout>
        </widget>
@@ -642,66 +130,32 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QDockWidget" name="loggingDockWidget">
+  <widget class="QDockWidget" name="loggerDockWidget">
    <property name="windowTitle">
-    <string>Logging</string>
+    <string>Logger</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_5">
+    <layout class="QGridLayout" name="gridLayout_6">
+     <item row="0" column="0">
+      <widget class="LoggerWidget" name="loggerWidget" native="true"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="messageDockWidget">
+   <property name="windowTitle">
+    <string>Message</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>8</number>
    </attribute>
    <widget class="QWidget" name="dockWidgetContents_2">
-    <layout class="QGridLayout" name="gridLayout_6">
+    <layout class="QGridLayout" name="gridLayout_7">
      <item row="0" column="0">
-      <widget class="QLabel" name="label_6">
-       <property name="text">
-        <string>File path:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="filePathEdit">
-       <property name="enabled">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QPushButton" name="browseButton">
-       <property name="text">
-        <string>Browse</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="6">
-      <widget class="QPushButton" name="startLoggingButton">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>Start</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="4">
-      <widget class="QLabel" name="label_7">
-       <property name="text">
-        <string>Logging time:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="5">
-      <widget class="QLabel" name="loggingTimeLabel">
-       <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;00:00:00&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3">
-      <widget class="QCheckBox" name="appendCheckBox">
-       <property name="text">
-        <string>Append</string>
-       </property>
-      </widget>
+      <widget class="MessageWidget" name="messageWidget" native="true"/>
      </item>
     </layout>
    </widget>
@@ -722,7 +176,7 @@
     <string>Serial Port</string>
    </property>
   </action>
-  <action name="actionLogging">
+  <action name="actionLogger">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -730,23 +184,102 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Logging</string>
+    <string>Logger</string>
+   </property>
+  </action>
+  <action name="actionMessage">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Message</string>
+   </property>
+  </action>
+  <action name="actionTerminal">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Terminal</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <tabstops>
-  <tabstop>portComboBox</tabstop>
-  <tabstop>baudRateComboBox</tabstop>
-  <tabstop>dataBitsComboBox</tabstop>
-  <tabstop>stopBitsComboBox</tabstop>
-  <tabstop>parityComboBox</tabstop>
-  <tabstop>flowControlComboBox</tabstop>
-  <tabstop>sendAsciiButton</tabstop>
-  <tabstop>binaryLineEdit</tabstop>
-  <tabstop>sendBinaryButton</tabstop>
-  <tabstop>terminalTextEdit</tabstop>
- </tabstops>
+ <customwidgets>
+  <customwidget>
+   <class>LoggerWidget</class>
+   <extends>QWidget</extends>
+   <header>loggerwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SerialPortWidget</class>
+   <extends>QWidget</extends>
+   <header>serialportwidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MessageWidget</class>
+   <extends>QWidget</extends>
+   <header>messagewidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionSerial_Port</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>serialPortDockWidget</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>103</x>
+     <y>98</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionLogger</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>loggerDockWidget</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>82</x>
+     <y>186</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionMessage</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>messageDockWidget</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>249</x>
+     <y>186</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
