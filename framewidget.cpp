@@ -36,51 +36,46 @@ FrameWidget::~FrameWidget()
 
 void FrameWidget::on_dataTypeComboBox_currentIndexChanged(int index)
 {
-  int minimumValue = 0, maximumValue = 0;
+  int min = 0, max = 0;
 
   switch(ui->dataTypeComboBox->itemData(index).value<int>()) {
     case uint8:
-      maximumValue = 255;
+      max = 255;
       break;
 
     case uint16:
-      maximumValue = 65535;
+      max = 65535;
       break;
 
     case uint32:
-      maximumValue = 2147483647;
+      max = 2147483647;
       break;
 
     case int8:
-      minimumValue = -128;
-      maximumValue = 127;
+      min = -128;
+      max = 127;
       break;
 
     case int16:
-      minimumValue = -32768;
-      maximumValue = 32767;
+      min = -32768;
+      max = 32767;
       break;
 
     case int32:
-      minimumValue = -2147483648;
-      maximumValue = 2147483647;
+      min = -2147483648;
+      max = 2147483647;
       break;
   }
 
-  ui->minimumValueSpinBox->setMinimum(minimumValue);
-  ui->minimumValueSpinBox->setMaximum(maximumValue);
-  ui->minimumValueSpinBox->setValue(minimumValue);
+  ui->minimumValueSpinBox->setMinimum(min);
+  ui->maximumValueSpinBox->setMaximum(max);
 
-  ui->maximumValueSpinBox->setMinimum(minimumValue);
-  ui->maximumValueSpinBox->setMaximum(maximumValue);
-  ui->maximumValueSpinBox->setValue(maximumValue);
+  ui->minimumValueSpinBox->setValue(min);
+  ui->maximumValueSpinBox->setValue(max);
 }
 
 void FrameWidget::on_payloadSpinBox_valueChanged(int value)
 {
-  int min = ui->minimumValueSpinBox->value();
-  int max = ui->maximumValueSpinBox->value();
-
   for (int i = 0; i < sliderVector.size(); i++) {
     delete sliderVector[i];
     sliderVector[i] = 0;
@@ -91,8 +86,8 @@ void FrameWidget::on_payloadSpinBox_valueChanged(int value)
   for (int i = 0; i < value; i++) {
     sliderVector.push_back(new Slider);
 
-    sliderVector[i]->setMinimumValue(min);
-    sliderVector[i]->setMaximumValue(max);
+    sliderVector[i]->setMinimumValue(ui->minimumValueSpinBox->value());
+    sliderVector[i]->setMaximumValue(ui->maximumValueSpinBox->value());
     sliderVector[i]->setId(QLatin1String("<b>") +
                            QString::number(i + 1) +
                            QLatin1String("</b>"));
@@ -103,12 +98,16 @@ void FrameWidget::on_payloadSpinBox_valueChanged(int value)
 
 void FrameWidget::on_minimumValueSpinBox_valueChanged(int min)
 {
+  ui->maximumValueSpinBox->setMinimum(min);
+
   for (int i = 0; i < sliderVector.size(); i++)
     sliderVector[i]->setMinimumValue(min);
 }
 
 void FrameWidget::on_maximumValueSpinBox_valueChanged(int max)
 {
+  ui->minimumValueSpinBox->setMaximum(max);
+
   for (int i = 0; i < sliderVector.size(); i++)
     sliderVector[i]->setMaximumValue(max);
 }
