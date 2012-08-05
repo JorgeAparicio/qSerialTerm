@@ -3,7 +3,7 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
-#include <QDebug>
+
 LoggerWidget::LoggerWidget(QWidget *parent) :
   QWidget(parent),
   ui(new Ui::LoggerWidget),
