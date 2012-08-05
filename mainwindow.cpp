@@ -20,8 +20,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QDebug>
-
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   ui(new Ui::MainWindow)
@@ -29,11 +27,15 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->setupUi(this);
 
   this->showMaximized();
+  ui->frameDockWidget->hide();
 
   connect(ui->serialPortWidget, SIGNAL(read(QByteArray)),
           ui->loggerWidget,     SLOT(append(QByteArray)));
 
   connect(ui->messageWidget,    SIGNAL(send(QByteArray)),
+          ui->serialPortWidget, SLOT(write(QByteArray)));
+
+  connect(ui->frameWidget,      SIGNAL(send(QByteArray)),
           ui->serialPortWidget, SLOT(write(QByteArray)));
 
   connect(ui->serialPortWidget, SIGNAL(communicationStart(bool)),
@@ -93,4 +95,9 @@ void MainWindow::on_loggerDockWidget_visibilityChanged(bool)
 void MainWindow::on_messageDockWidget_visibilityChanged(bool)
 {
   ui->actionMessage->setChecked(!ui->messageDockWidget->isHidden());
+}
+
+void MainWindow::on_frameDockWidget_visibilityChanged(bool)
+{
+  ui->actionFrame->setChecked(!ui->frameDockWidget->isHidden());
 }

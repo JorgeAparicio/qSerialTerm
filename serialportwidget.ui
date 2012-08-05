@@ -6,25 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>197</width>
-    <height>549</height>
+    <width>145</width>
+    <height>543</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="9" column="0">
-    <widget class="QComboBox" name="baudRateComboBox">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0">
-    <widget class="QLabel" name="label_5">
-     <property name="text">
-      <string>Baud rate:</string>
+   <item row="1" column="0">
+    <widget class="QComboBox" name="portComboBox">
+     <property name="focusPolicy">
+      <enum>Qt::WheelFocus</enum>
      </property>
     </widget>
    </item>
@@ -35,59 +28,15 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QComboBox" name="portComboBox">
-     <property name="focusPolicy">
-      <enum>Qt::WheelFocus</enum>
+   <item row="15" column="0">
+    <widget class="QComboBox" name="parityComboBox">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="currentIndex">
+      <number>-1</number>
      </property>
     </widget>
-   </item>
-   <item row="10" column="0">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Data bits:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>37</width>
-         <height>24</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="openPortPushButton">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>Open</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_4">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>37</width>
-         <height>24</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
    </item>
    <item row="16" column="0">
     <widget class="QLabel" name="label_9">
@@ -96,6 +45,33 @@
      </property>
      <property name="text">
       <string>Flow control:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="0">
+    <widget class="QComboBox" name="dataBitsComboBox">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="currentIndex">
+      <number>-1</number>
+     </property>
+    </widget>
+   </item>
+   <item row="17" column="0">
+    <widget class="QComboBox" name="flowControlComboBox">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="currentIndex">
+      <number>-1</number>
+     </property>
+    </widget>
+   </item>
+   <item row="14" column="0">
+    <widget class="QLabel" name="label_8">
+     <property name="text">
+      <string>Parity:</string>
      </property>
     </widget>
    </item>
@@ -120,51 +96,99 @@
      </item>
     </layout>
    </item>
+   <item row="12" column="0">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>Stop bits:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>Data bits:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QComboBox" name="baudRateComboBox">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QPushButton" name="openPortPushButton">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="text">
+      <string>Open</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Baud rate:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="19" column="0">
+    <widget class="QPushButton" name="startCommunicationPushButton">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="text">
+      <string>Start</string>
+     </property>
+    </widget>
+   </item>
+   <item row="13" column="0">
+    <widget class="QComboBox" name="stopBitsComboBox">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="currentIndex">
+      <number>-1</number>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="portStatusLabel">
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;No port selected&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="18" column="0">
+    <widget class="QLabel" name="communicationStatusLabel">
+     <property name="text">
+      <string>&lt;font color = red&gt;No communication</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
    <item row="2" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="getPortsPushButton">
-       <property name="text">
-        <string>Get</string>
-       </property>
-       <property name="autoDefault">
-        <bool>true</bool>
-       </property>
-       <property name="default">
-        <bool>false</bool>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
+    <widget class="QPushButton" name="getPortsPushButton">
+     <property name="text">
+      <string>Get</string>
+     </property>
+     <property name="autoDefault">
+      <bool>true</bool>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
    </item>
    <item row="4" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -187,132 +211,15 @@
      </item>
     </layout>
    </item>
-   <item row="19" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <spacer name="horizontalSpacer_5">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="startCommunicationPushButton">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>Start</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_6">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item row="12" column="0">
-    <widget class="QLabel" name="label_7">
-     <property name="text">
-      <string>Stop bits:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="17" column="0">
-    <widget class="QComboBox" name="flowControlComboBox">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="currentIndex">
-      <number>-1</number>
-     </property>
-    </widget>
-   </item>
-   <item row="14" column="0">
-    <widget class="QLabel" name="label_8">
-     <property name="text">
-      <string>Parity:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="portStatusLabel">
-     <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;No port selected&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="15" column="0">
-    <widget class="QComboBox" name="parityComboBox">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="currentIndex">
-      <number>-1</number>
-     </property>
-    </widget>
-   </item>
-   <item row="13" column="0">
-    <widget class="QComboBox" name="stopBitsComboBox">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="currentIndex">
-      <number>-1</number>
-     </property>
-    </widget>
-   </item>
-   <item row="11" column="0">
-    <widget class="QComboBox" name="dataBitsComboBox">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="currentIndex">
-      <number>-1</number>
-     </property>
-    </widget>
-   </item>
-   <item row="18" column="0">
-    <widget class="QLabel" name="communicationStatusLabel">
-     <property name="text">
-      <string>&lt;font color = red&gt;No communication</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <tabstops>
-  <tabstop>getPortsPushButton</tabstop>
   <tabstop>portComboBox</tabstop>
-  <tabstop>openPortPushButton</tabstop>
   <tabstop>baudRateComboBox</tabstop>
   <tabstop>dataBitsComboBox</tabstop>
   <tabstop>stopBitsComboBox</tabstop>
   <tabstop>parityComboBox</tabstop>
   <tabstop>flowControlComboBox</tabstop>
-  <tabstop>startCommunicationPushButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

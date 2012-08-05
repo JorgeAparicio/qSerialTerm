@@ -50,6 +50,7 @@ class MainWindow : public QMainWindow
     void on_serialPortDockWidget_visibilityChanged(bool);
     void on_loggerDockWidget_visibilityChanged(bool);
     void on_messageDockWidget_visibilityChanged(bool);
+    void on_frameDockWidget_visibilityChanged(bool);
 
   private:
     Ui::MainWindow *ui;

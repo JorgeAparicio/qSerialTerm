@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>332</width>
-    <height>235</height>
+    <width>318</width>
+    <height>222</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,7 +34,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>332</width>
+     <width>318</width>
      <height>25</height>
     </rect>
    </property>
@@ -52,6 +52,7 @@
      <property name="title">
       <string>Dock</string>
      </property>
+     <addaction name="actionFrame"/>
      <addaction name="actionLogger"/>
      <addaction name="actionMessage"/>
      <addaction name="actionSerial_Port"/>
@@ -69,27 +70,28 @@
    <addaction name="menuView"/>
    <addaction name="menuAbout"/>
   </widget>
-  <widget class="QToolBar" name="mainToolBar">
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-  </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QDockWidget" name="serialPortDockWidget">
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
    <property name="minimumSize">
     <size>
-     <width>207</width>
+     <width>96</width>
      <height>121</height>
     </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>524287</width>
+     <height>524287</height>
+    </size>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
     <string>Serial Port</string>
@@ -101,6 +103,12 @@
     <layout class="QGridLayout" name="gridLayout">
      <item row="1" column="0">
       <widget class="QScrollArea" name="scrollArea">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="verticalScrollBarPolicy">
         <enum>Qt::ScrollBarAsNeeded</enum>
        </property>
@@ -115,7 +123,7 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>187</width>
+          <width>76</width>
           <height>76</height>
          </rect>
         </property>
@@ -131,6 +139,27 @@
    </widget>
   </widget>
   <widget class="QDockWidget" name="loggerDockWidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>79</width>
+     <height>53</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>524287</width>
+     <height>524287</height>
+    </size>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::BottomDockWidgetArea|Qt::TopDockWidgetArea</set>
+   </property>
    <property name="windowTitle">
     <string>Logger</string>
    </property>
@@ -146,6 +175,30 @@
    </widget>
   </widget>
   <widget class="QDockWidget" name="messageDockWidget">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>79</width>
+     <height>53</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>524287</width>
+     <height>524287</height>
+    </size>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::BottomDockWidgetArea|Qt::TopDockWidgetArea</set>
+   </property>
    <property name="windowTitle">
     <string>Message</string>
    </property>
@@ -156,6 +209,70 @@
     <layout class="QGridLayout" name="gridLayout_7">
      <item row="0" column="0">
       <widget class="MessageWidget" name="messageWidget" native="true"/>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QDockWidget" name="frameDockWidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>121</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>524287</width>
+     <height>524287</height>
+    </size>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
+   </property>
+   <property name="windowTitle">
+    <string>Frame</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QWidget" name="dockWidgetContents_3">
+    <layout class="QGridLayout" name="gridLayout_4">
+     <item row="0" column="0">
+      <widget class="QScrollArea" name="scrollArea_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="widgetResizable">
+        <bool>true</bool>
+       </property>
+       <widget class="QWidget" name="scrollAreaWidgetContents_2">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>76</width>
+          <height>76</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_8">
+         <item row="0" column="0">
+          <widget class="FrameWidget" name="frameWidget" native="true"/>
+         </item>
+        </layout>
+       </widget>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -209,6 +326,17 @@
     <string>Terminal</string>
    </property>
   </action>
+  <action name="actionFrame">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Frame</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -228,6 +356,12 @@
    <class>MessageWidget</class>
    <extends>QWidget</extends>
    <header>messagewidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FrameWidget</class>
+   <extends>QWidget</extends>
+   <header>framewidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -278,6 +412,22 @@
     <hint type="destinationlabel">
      <x>249</x>
      <y>186</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionFrame</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>frameDockWidget</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>482</x>
+     <y>85</y>
     </hint>
    </hints>
   </connection>

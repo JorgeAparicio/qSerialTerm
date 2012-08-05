@@ -35,21 +35,29 @@ SOURCES     +=  main.cpp\
     loggerwidget.cpp \
     serialportwidget.cpp \
     messagewidget.cpp \
-    terminalwidget.cpp
+    terminalwidget.cpp \
+    slider.cpp \
+    framewidget.cpp \
+    hexstring.cpp
 
 HEADERS     +=  mainwindow.h \
     aboutdialog.h \
     loggerwidget.h \
     serialportwidget.h \
     messagewidget.h \
-    terminalwidget.h
+    terminalwidget.h \
+    slider.h \
+    framewidget.h \
+    hexstring.h
 
 FORMS       +=  mainwindow.ui \
     aboutdialog.ui \
     loggerwidget.ui \
     serialportwidget.ui \
     messagewidget.ui \
-    terminalwidget.ui
+    terminalwidget.ui \
+    slider.ui \
+    framewidget.ui
 
 OTHER_FILES +=  \
                 README \

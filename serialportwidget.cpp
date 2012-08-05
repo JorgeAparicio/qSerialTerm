@@ -171,8 +171,8 @@ void SerialPortWidget::on_portComboBox_currentIndexChanged(int index)
 
     ui->baudRateComboBox->clear();
 
-    ui->pidLabel->setText("-");
-    ui->vidLabel->setText("-");
+    ui->pidLabel->setText(QLatin1String("-"));
+    ui->vidLabel->setText(QLatin1String("-"));
     ui->portStatusLabel->setText(QLatin1String("<font color=red>"
                                                "No port selected"
                                                "</font>"));
