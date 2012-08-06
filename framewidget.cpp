@@ -3,6 +3,8 @@
 
 #include "hexstring.h"
 
+Q_DECLARE_METATYPE(QDataStream::ByteOrder)
+
 FrameWidget::FrameWidget(QWidget *parent) :
   QWidget(parent),
   ui(new Ui::FrameWidget),
@@ -13,18 +15,18 @@ FrameWidget::FrameWidget(QWidget *parent) :
   ui->appendLineEdit->setValidator(new QIntValidator(0, 255));
   ui->prependLineEdit->setValidator(new QIntValidator(0, 255));
 
-  ui->dataTypeComboBox->addItem(QLatin1String("uint8"), uint8);
-  ui->dataTypeComboBox->addItem(QLatin1String("uint16"), uint16);
-  ui->dataTypeComboBox->addItem(QLatin1String("uint32"), uint32);
-  ui->dataTypeComboBox->addItem(QLatin1String("int8"), int8);
-  ui->dataTypeComboBox->addItem(QLatin1String("int16"), int16);
-  ui->dataTypeComboBox->addItem(QLatin1String("int32"), int32);
+  ui->dataTypeComboBox->addItem(QLatin1String("uint8"), UINT8);
+  ui->dataTypeComboBox->addItem(QLatin1String("uint16"), UINT16);
+  ui->dataTypeComboBox->addItem(QLatin1String("uint32"), UINT32);
+  ui->dataTypeComboBox->addItem(QLatin1String("int8"), INT8);
+  ui->dataTypeComboBox->addItem(QLatin1String("int16"), INT16);
+  ui->dataTypeComboBox->addItem(QLatin1String("int32"), INT32);
 
-  ui->endiannessComboBox->addItem(QLatin1String("Little"), Little);
-  ui->endiannessComboBox->addItem(QLatin1String("Big"), Big);
+  ui->endiannessComboBox->addItem(QLatin1String("Little"), QDataStream::LittleEndian);
+  ui->endiannessComboBox->addItem(QLatin1String("Big"), QDataStream::BigEndian);
 
   ui->formatComboBox->addItem(QLatin1String("Raw binary"), Binary);
-  ui->formatComboBox->addItem(QLatin1String("Hexadecimal string"), Hexadecimal);
+  ui->formatComboBox->addItem(QLatin1String("Hex string"), Hexadecimal);
 
   ui->payloadSpinBox->setValue(4);
 }
@@ -39,29 +41,29 @@ void FrameWidget::on_dataTypeComboBox_currentIndexChanged(int index)
   int min = 0, max = 0;
 
   switch(ui->dataTypeComboBox->itemData(index).value<int>()) {
-    case uint8:
+    case UINT8:
       max = 255;
       break;
 
-    case uint16:
+    case UINT16:
       max = 65535;
       break;
 
-    case uint32:
+    case UINT32:
       max = 2147483647;
       break;
 
-    case int8:
+    case INT8:
       min = -128;
       max = 127;
       break;
 
-    case int16:
+    case INT16:
       min = -32768;
       max = 32767;
       break;
 
-    case int32:
+    case INT32:
       min = -2147483648;
       max = 2147483647;
       break;
@@ -156,47 +158,39 @@ QByteArray FrameWidget::encode()
 {
   QByteArray frame;
 
-  QDataStream frameStream(&frame, QIODevice::ReadWrite);
+  QDataStream encoder(&frame, QIODevice::ReadWrite);
 
-  switch(ui->endiannessComboBox->itemData(ui->endiannessComboBox->currentIndex()).value<int>()) {
-    case Little:
-      frameStream.setByteOrder(QDataStream::LittleEndian);
-      break;
-
-    case Big:
-      frameStream.setByteOrder(QDataStream::BigEndian);
-      break;
-  }
+  encoder.setByteOrder(ui->endiannessComboBox->itemData(ui->endiannessComboBox->currentIndex()).value<QDataStream::ByteOrder>());
 
   switch(ui->dataTypeComboBox->itemData(ui->dataTypeComboBox->currentIndex()).value<int>()) {
-    case uint8:
+    case UINT8:
       for (int i = 0; i < sliderVector.size(); i++)
-        frameStream << quint8(sliderVector[i]->value());
+        encoder << quint8(sliderVector[i]->value());
       break;
 
-    case uint16:
+    case UINT16:
       for (int i = 0; i < sliderVector.size(); i++)
-        frameStream << quint16(sliderVector[i]->value());
+        encoder << quint16(sliderVector[i]->value());
       break;
 
-    case uint32:
+    case UINT32:
       for (int i = 0; i < sliderVector.size(); i++)
-        frameStream << quint32(sliderVector[i]->value());
+        encoder << quint32(sliderVector[i]->value());
       break;
 
-    case int8:
+    case INT8:
       for (int i = 0; i < sliderVector.size(); i++)
-        frameStream << qint8(sliderVector[i]->value());
+        encoder << qint8(sliderVector[i]->value());
       break;
 
-    case int16:
+    case INT16:
       for (int i = 0; i < sliderVector.size(); i++)
-        frameStream << qint16(sliderVector[i]->value());
+        encoder << qint16(sliderVector[i]->value());
       break;
 
-    case int32:
+    case INT32:
       for (int i = 0; i < sliderVector.size(); i++)
-        frameStream << qint32(sliderVector[i]->value());
+        encoder << qint32(sliderVector[i]->value());
       break;
   }
 

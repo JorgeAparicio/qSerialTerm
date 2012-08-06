@@ -19,8 +19,10 @@
 
 QT          +=  core gui
 
+CONFIG      +=  qwt
+
 win32 {
-    CONFIG  += serialport
+    CONFIG  +=  serialport
 }
 
 unix {
@@ -38,7 +40,10 @@ SOURCES     +=  main.cpp\
     terminalwidget.cpp \
     slider.cpp \
     framewidget.cpp \
-    hexstring.cpp
+    hexstring.cpp \
+    plot.cpp \
+    plotwidget.cpp \
+    circularbuffer.cpp
 
 HEADERS     +=  mainwindow.h \
     aboutdialog.h \
@@ -48,7 +53,10 @@ HEADERS     +=  mainwindow.h \
     terminalwidget.h \
     slider.h \
     framewidget.h \
-    hexstring.h
+    hexstring.h \
+    plot.h \
+    plotwidget.h \
+    circularbuffer.h
 
 FORMS       +=  mainwindow.ui \
     aboutdialog.ui \
@@ -57,7 +65,9 @@ FORMS       +=  mainwindow.ui \
     messagewidget.ui \
     terminalwidget.ui \
     slider.ui \
-    framewidget.ui
+    framewidget.ui \
+    plot.ui \
+    plotwidget.ui
 
 OTHER_FILES +=  \
                 README \

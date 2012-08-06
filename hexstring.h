@@ -24,11 +24,13 @@ class HexString
     static QByteArray toRawBinary(QByteArray const& hex)
     {
       QByteArray bin;
+      quint8 low, high;
 
       for (int i = 0; i < hex.size(); i += 2) {
-        bin.append(16 * (hex.at(i) > '9'? hex.at(i) - 55: hex.at(i) - 48) +
-                   hex.at(i + 1) > '9'? hex.at(i + 1) - 55: hex.at(i + 1) - 48);
+        high = hex.at(i) > '9'? hex.at(i) - 55: hex.at(i) - 48;
+        low = hex.at(i + 1) > '9'? hex.at(i + 1) - 55: hex.at(i + 1) - 48;
 
+        bin.append(16 * high + low);
       }
 
       return bin;

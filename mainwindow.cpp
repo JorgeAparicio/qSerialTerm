@@ -22,7 +22,9 @@
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
-  ui(new Ui::MainWindow)
+  ui(new Ui::MainWindow),
+  terminalWidget(0),
+  plotWidget(0)
 {
   ui->setupUi(this);
 
@@ -41,11 +43,16 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(ui->serialPortWidget, SIGNAL(communicationStart(bool)),
           ui->actionTerminal,   SLOT(setDisabled(bool)));
 
+  connect(ui->serialPortWidget, SIGNAL(communicationStart(bool)),
+          ui->actionPlot,   SLOT(setDisabled(bool)));
+
   fromDeviceActionGroup = new QActionGroup(this);
 
   fromDeviceActionGroup->setExclusive(true);
   fromDeviceActionGroup->addAction(ui->actionTerminal);
-  ui->actionTerminal->setChecked(true);
+  fromDeviceActionGroup->addAction(ui->actionPlot);
+//  ui->actionTerminal->setChecked(true);
+  ui->actionPlot->setChecked(true);
 }
 
 MainWindow::~MainWindow()
@@ -79,6 +86,23 @@ void MainWindow::on_actionTerminal_toggled(bool checked)
   } else {
     delete terminalWidget;
     terminalWidget = 0;
+  }
+}
+
+void MainWindow::on_actionPlot_toggled(bool checked)
+{
+  if (checked) {
+    plotWidget = new PlotWidget;
+
+    ui->fromDeviceGridLayout->addWidget(plotWidget);
+
+    connect(ui->serialPortWidget, SIGNAL(read(QByteArray)),
+            plotWidget,           SLOT(display(QByteArray)));
+
+    plotWidget->show();
+  } else {
+    delete plotWidget;
+    plotWidget = 0;
   }
 }
 

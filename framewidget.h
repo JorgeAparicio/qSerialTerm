@@ -16,17 +16,12 @@ class FrameWidget : public QWidget
 
   public:
     enum DataType {
-      uint8 = 0,
-      uint16 = 1,
-      uint32 = 2,
-      int8 = 3,
-      int16 = 4,
-      int32 = 5
-    };
-
-    enum Endianness {
-      Little = 0,
-      Big = 1
+      UINT8 = 0,
+      UINT16 = 1,
+      UINT32 = 2,
+      INT8 = 3,
+      INT16 = 4,
+      INT32 = 5
     };
 
     enum Format {

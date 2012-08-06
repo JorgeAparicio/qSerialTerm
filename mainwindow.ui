@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>318</width>
-    <height>222</height>
+    <width>797</width>
+    <height>453</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,16 +16,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_5">
     <item row="0" column="0">
-     <widget class="QGroupBox" name="fromDeviceGroupBox">
-      <property name="title">
-       <string>From Device</string>
-      </property>
-      <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0">
-        <layout class="QGridLayout" name="fromDeviceGridLayout"/>
-       </item>
-      </layout>
-     </widget>
+     <layout class="QGridLayout" name="fromDeviceGridLayout"/>
     </item>
    </layout>
   </widget>
@@ -34,7 +25,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>318</width>
+     <width>797</width>
      <height>25</height>
     </rect>
    </property>
@@ -63,6 +54,7 @@
      </property>
      <addaction name="separator"/>
      <addaction name="actionTerminal"/>
+     <addaction name="actionPlot"/>
     </widget>
     <addaction name="menuToolbar"/>
     <addaction name="menuFrom_Device"/>
@@ -113,7 +105,7 @@
         <enum>Qt::ScrollBarAsNeeded</enum>
        </property>
        <property name="horizontalScrollBarPolicy">
-        <enum>Qt::ScrollBarAsNeeded</enum>
+        <enum>Qt::ScrollBarAlwaysOff</enum>
        </property>
        <property name="widgetResizable">
         <bool>true</bool>
@@ -124,7 +116,7 @@
           <x>0</x>
           <y>0</y>
           <width>76</width>
-          <height>76</height>
+          <height>307</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -222,7 +214,7 @@
    </property>
    <property name="minimumSize">
     <size>
-     <width>0</width>
+     <width>96</width>
      <height>121</height>
     </size>
    </property>
@@ -263,7 +255,7 @@
           <x>0</x>
           <y>0</y>
           <width>76</width>
-          <height>76</height>
+          <height>307</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_8">
@@ -335,6 +327,14 @@
    </property>
    <property name="text">
     <string>Frame</string>
+   </property>
+  </action>
+  <action name="actionPlot">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Plot</string>
    </property>
   </action>
  </widget>
