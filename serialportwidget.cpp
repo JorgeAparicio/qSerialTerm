@@ -87,6 +87,9 @@ void SerialPortWidget::on_getPortsPushButton_clicked()
 void SerialPortWidget::on_openPortPushButton_clicked()
 {
   if (serialPort) {
+    if (refreshRateTimer) // Communication ongoing
+      on_startCommunicationPushButton_clicked();
+
     serialPort->close();
 
     delete serialPort;
