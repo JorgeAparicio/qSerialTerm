@@ -3,8 +3,6 @@
 
 #include "hexstring.h"
 
-Q_DECLARE_METATYPE(QDataStream::ByteOrder)
-
 FrameWidget::FrameWidget(QWidget *parent) :
   QWidget(parent),
   ui(new Ui::FrameWidget),
@@ -160,7 +158,7 @@ QByteArray FrameWidget::encode()
 
   QDataStream encoder(&frame, QIODevice::ReadWrite);
 
-  encoder.setByteOrder(ui->endiannessComboBox->itemData(ui->endiannessComboBox->currentIndex()).value<QDataStream::ByteOrder>());
+  encoder.setByteOrder(QDataStream::ByteOrder(ui->endiannessComboBox->itemData(ui->endiannessComboBox->currentIndex()).value<int>()));
 
   switch(ui->dataTypeComboBox->itemData(ui->dataTypeComboBox->currentIndex()).value<int>()) {
     case UINT8:

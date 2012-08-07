@@ -3,8 +3,6 @@
 
 #include "hexstring.h"
 
-Q_DECLARE_METATYPE(QDataStream::ByteOrder)
-
 PlotWidget::PlotWidget(QWidget *parent) :
   QWidget(parent),
   ui(new Ui::PlotWidget),
@@ -261,7 +259,7 @@ void PlotWidget::decode(QByteArray data)
   if (plotVector.size()) {
     QDataStream decoder(&data, QIODevice::ReadOnly);
 
-    decoder.setByteOrder(ui->endiannessComboBox->itemData(ui->endiannessComboBox->currentIndex()).value<QDataStream::ByteOrder>());
+    decoder.setByteOrder(QDataStream::ByteOrder(ui->endiannessComboBox->itemData(ui->endiannessComboBox->currentIndex()).value<int>()));
 
     switch(ui->dataTypeComboBox->itemData(ui->dataTypeComboBox->currentIndex()).value<int>()) {
       case UINT8:
