@@ -324,6 +324,7 @@ void PlotWidget::decode(QByteArray data)
 
       case FLOAT:
         float tmpFloat;
+        decoder.setFloatingPointPrecision(QDataStream::SinglePrecision);
 
         for (int i = 0; i < plotVector.size(); i++) {
           decoder >> tmpFloat;
