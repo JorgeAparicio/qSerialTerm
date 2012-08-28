@@ -9,8 +9,8 @@ can code more complex applications later on.
 DEPENDENCIES
 ============
 
-qSerialTerm relies on the QtSerialPort library. For installation steps,
-check the wiki (https://github.com/JorgeAparicio/qSerialTerm/wiki).
+qSerialTerm relies on the QtSerialPort and libqwt libraries. For installation 
+steps, check the wiki (https://github.com/JorgeAparicio/qSerialTerm/wiki).
 
 BUILDING
 ========
