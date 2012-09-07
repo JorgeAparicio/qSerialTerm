@@ -53,8 +53,9 @@
       <string>From Device</string>
      </property>
      <addaction name="separator"/>
-     <addaction name="actionTerminal"/>
+     <addaction name="actionImage"/>
      <addaction name="actionPlot"/>
+     <addaction name="actionTerminal"/>
     </widget>
     <addaction name="menuToolbar"/>
     <addaction name="menuFrom_Device"/>
@@ -335,6 +336,14 @@
    </property>
    <property name="text">
     <string>Plot</string>
+   </property>
+  </action>
+  <action name="actionImage">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Image</string>
    </property>
   </action>
  </widget>

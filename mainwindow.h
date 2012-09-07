@@ -27,9 +27,10 @@
 #include <QtAddOnSerialPort/serialportinfo.h>
 
 #include "aboutdialog.h"
+#include "imagewidget.h"
 #include "messagewidget.h"
-#include "terminalwidget.h"
 #include "plotwidget.h"
+#include "terminalwidget.h"
 
 namespace Ui {
   class MainWindow;
@@ -46,18 +47,20 @@ class MainWindow : public QMainWindow
   private slots:
     void on_actionAbout_triggered();
 
-    void on_actionTerminal_toggled(bool);
+    void on_actionImage_toggled(bool);
     void on_actionPlot_toggled(bool);
+    void on_actionTerminal_toggled(bool);
 
-    void on_serialPortDockWidget_visibilityChanged(bool);
+    void on_frameDockWidget_visibilityChanged(bool);
     void on_loggerDockWidget_visibilityChanged(bool);
     void on_messageDockWidget_visibilityChanged(bool);
-    void on_frameDockWidget_visibilityChanged(bool);    
+    void on_serialPortDockWidget_visibilityChanged(bool);
 
   private:
     Ui::MainWindow *ui;
-    TerminalWidget *terminalWidget;
+    ImageWidget *imageWidget;
     PlotWidget *plotWidget;
+    TerminalWidget *terminalWidget;
     QActionGroup *fromDeviceActionGroup;
 };
 

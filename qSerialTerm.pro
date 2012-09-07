@@ -43,7 +43,8 @@ SOURCES     +=  main.cpp\
     hexstring.cpp \
     plot.cpp \
     plotwidget.cpp \
-    circularbuffer.cpp
+    circularbuffer.cpp \
+    imagewidget.cpp
 
 HEADERS     +=  mainwindow.h \
     aboutdialog.h \
@@ -56,7 +57,8 @@ HEADERS     +=  mainwindow.h \
     hexstring.h \
     plot.h \
     plotwidget.h \
-    circularbuffer.h
+    circularbuffer.h \
+    imagewidget.h
 
 FORMS       +=  mainwindow.ui \
     aboutdialog.ui \
@@ -67,7 +69,8 @@ FORMS       +=  mainwindow.ui \
     slider.ui \
     framewidget.ui \
     plot.ui \
-    plotwidget.ui
+    plotwidget.ui \
+    imagewidget.ui
 
 OTHER_FILES +=  \
                 README \

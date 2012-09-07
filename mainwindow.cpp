@@ -23,8 +23,9 @@
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
   ui(new Ui::MainWindow),
-  terminalWidget(0),
-  plotWidget(0)
+  imageWidget(0),
+  plotWidget(0),
+  terminalWidget(0)
 {
   ui->setupUi(this);
 
@@ -41,18 +42,22 @@ MainWindow::MainWindow(QWidget *parent) :
           ui->serialPortWidget, SLOT(write(QByteArray)));
 
   connect(ui->serialPortWidget, SIGNAL(communicationStart(bool)),
-          ui->actionTerminal,   SLOT(setDisabled(bool)));
+          ui->actionImage,   SLOT(setDisabled(bool)));
 
   connect(ui->serialPortWidget, SIGNAL(communicationStart(bool)),
           ui->actionPlot,   SLOT(setDisabled(bool)));
 
+  connect(ui->serialPortWidget, SIGNAL(communicationStart(bool)),
+          ui->actionTerminal,   SLOT(setDisabled(bool)));
+
+
   fromDeviceActionGroup = new QActionGroup(this);
 
   fromDeviceActionGroup->setExclusive(true);
-  fromDeviceActionGroup->addAction(ui->actionTerminal);
+  fromDeviceActionGroup->addAction(ui->actionImage);
   fromDeviceActionGroup->addAction(ui->actionPlot);
-//  ui->actionTerminal->setChecked(true);
-  ui->actionPlot->setChecked(true);
+  fromDeviceActionGroup->addAction(ui->actionTerminal);
+  ui->actionTerminal->setChecked(true);
 }
 
 MainWindow::~MainWindow()
@@ -67,6 +72,40 @@ void MainWindow::on_actionAbout_triggered()
   aboutDialog->setAttribute(Qt::WA_DeleteOnClose);
 
   aboutDialog->show();
+}
+
+void MainWindow::on_actionImage_toggled(bool checked)
+{
+  if (checked) {
+    imageWidget = new ImageWidget;
+
+    ui->fromDeviceGridLayout->addWidget(imageWidget);
+
+    connect(ui->serialPortWidget, SIGNAL(read(QByteArray)),
+            imageWidget,          SLOT(display(QByteArray)));
+
+    imageWidget->show();
+  } else {
+    delete imageWidget;
+    imageWidget = 0;
+  }
+}
+
+void MainWindow::on_actionPlot_toggled(bool checked)
+{
+  if (checked) {
+    plotWidget = new PlotWidget;
+
+    ui->fromDeviceGridLayout->addWidget(plotWidget);
+
+    connect(ui->serialPortWidget, SIGNAL(read(QByteArray)),
+            plotWidget,           SLOT(display(QByteArray)));
+
+    plotWidget->show();
+  } else {
+    delete plotWidget;
+    plotWidget = 0;
+  }
 }
 
 void MainWindow::on_actionTerminal_toggled(bool checked)
@@ -89,26 +128,9 @@ void MainWindow::on_actionTerminal_toggled(bool checked)
   }
 }
 
-void MainWindow::on_actionPlot_toggled(bool checked)
+void MainWindow::on_frameDockWidget_visibilityChanged(bool)
 {
-  if (checked) {
-    plotWidget = new PlotWidget;
-
-    ui->fromDeviceGridLayout->addWidget(plotWidget);
-
-    connect(ui->serialPortWidget, SIGNAL(read(QByteArray)),
-            plotWidget,           SLOT(display(QByteArray)));
-
-    plotWidget->show();
-  } else {
-    delete plotWidget;
-    plotWidget = 0;
-  }
-}
-
-void MainWindow::on_serialPortDockWidget_visibilityChanged(bool)
-{
-  ui->actionSerial_Port->setChecked(!ui->serialPortDockWidget->isHidden());
+  ui->actionFrame->setChecked(!ui->frameDockWidget->isHidden());
 }
 
 void MainWindow::on_loggerDockWidget_visibilityChanged(bool)
@@ -121,7 +143,7 @@ void MainWindow::on_messageDockWidget_visibilityChanged(bool)
   ui->actionMessage->setChecked(!ui->messageDockWidget->isHidden());
 }
 
-void MainWindow::on_frameDockWidget_visibilityChanged(bool)
+void MainWindow::on_serialPortDockWidget_visibilityChanged(bool)
 {
-  ui->actionFrame->setChecked(!ui->frameDockWidget->isHidden());
+  ui->actionSerial_Port->setChecked(!ui->serialPortDockWidget->isHidden());
 }
