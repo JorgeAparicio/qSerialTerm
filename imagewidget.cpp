@@ -71,7 +71,7 @@ void ImageWidget::display(QByteArray incomingData)
         for (int i = 0; i < width; i++)
           image->setPixel(i, j, pixels.at(j * width + i));
 
-      on_stretchCheckBox_toggled(ui->stretchCheckBox->isChecked());
+      on_fitToScreenCheckBox_toggled(ui->fitToScreenCheckBox->isChecked());
     }
   }
 }
@@ -83,7 +83,7 @@ void ImageWidget::on_clearPushButton_clicked()
       for (int i = 0; i < image->width(); i++)
         image->setPixel(i, j, qRgb(0, 0, 0));
 
-    on_stretchCheckBox_toggled(ui->stretchCheckBox->isChecked());
+    on_fitToScreenCheckBox_toggled(ui->fitToScreenCheckBox->isChecked());
   }
 }
 
@@ -115,7 +115,7 @@ void ImageWidget::on_startPushButton_clicked()
   }
 }
 
-void ImageWidget::on_stretchCheckBox_toggled(bool checked)
+void ImageWidget::on_fitToScreenCheckBox_toggled(bool checked)
 {
   if (image) {
     ui->imageLabel->clear();

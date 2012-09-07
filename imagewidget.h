@@ -48,7 +48,7 @@ class ImageWidget : public QWidget
 
     void on_startPushButton_clicked();
 
-    void on_stretchCheckBox_toggled(bool checked);
+    void on_fitToScreenCheckBox_toggled(bool checked);
 
   private:
     Ui::ImageWidget *ui;

@@ -74,9 +74,9 @@
       </spacer>
      </item>
      <item>
-      <widget class="QCheckBox" name="stretchCheckBox">
+      <widget class="QCheckBox" name="fitToScreenCheckBox">
        <property name="text">
-        <string>Stretch</string>
+        <string>Fit to Screen</string>
        </property>
       </widget>
      </item>
