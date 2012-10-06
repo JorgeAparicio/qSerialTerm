@@ -55,6 +55,7 @@ class ImageWidget : public QWidget
     QImage *image;
 
     QVector<QRgb> decode(QByteArray);
+    void saturate(int&, int, int);
 };
 
 #endif // IMAGEWIDGET_H

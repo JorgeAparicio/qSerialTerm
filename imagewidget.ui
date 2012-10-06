@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>707</width>
+    <width>843</width>
     <height>131</height>
    </rect>
   </property>
@@ -81,6 +81,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QCheckBox" name="grayscaleCheckBox">
+       <property name="text">
+        <string>To Grayscale</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="clearPushButton">
        <property name="text">
         <string>Clear</string>
@@ -106,7 +113,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>687</width>
+        <width>823</width>
         <height>76</height>
        </rect>
       </property>

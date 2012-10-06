@@ -131,8 +131,10 @@ void ImageWidget::on_fitToScreenCheckBox_toggled(bool checked)
 QVector<QRgb> ImageWidget::decode(QByteArray data)
 {
   QVector<QRgb> pixels;
+  int format = ui->formatComboBox->itemData(ui->formatComboBox->currentIndex()).value<int>();
+  bool grayscale = ui->grayscaleCheckBox->isChecked();
 
-  switch(ui->formatComboBox->itemData(ui->formatComboBox->currentIndex()).value<int>()) {
+  switch (format) {
     case MONO:
       for (int i = 0; i < data.size(); i++) {
         int level = quint8(data.at(i));
@@ -141,66 +143,80 @@ QVector<QRgb> ImageWidget::decode(QByteArray data)
       break;
 
     case RGB888:
-      for (int i = 0; i < data.size(); i += 3) {
-        int red = quint8(data.at(i));
-        int green = quint8(data.at(i + 1));
-        int blue = quint8(data.at(i + 2));
+      if (grayscale) {
+        for (int i = 0; i < data.size(); i += 3) {
+          int red = quint8(data.at(i));
+          int green = quint8(data.at(i + 1));
+          int blue = quint8(data.at(i + 2));
+          int gray = (red + green + blue) / 3;
 
-        pixels.append(qRgb(red, green, blue));
+          pixels.append(qRgb(gray, gray, gray));
+        }
+      } else {
+        for (int i = 0; i < data.size(); i += 3) {
+          int red = quint8(data.at(i));
+          int green = quint8(data.at(i + 1));
+          int blue = quint8(data.at(i + 2));
+
+          pixels.append(qRgb(red, green, blue));
+        }
       }
       break;
 
     case YCBCR422:
-      for (int i = 0; i < data.size(); i += 4) {
-        int cb = quint8(data.at(i)) - 128;
-        int y1 = quint8(data.at(i + 1));
-        int cr = quint8(data.at(i + 2)) - 128;
-        int y2 = quint8(data.at(i + 3));
+      if (grayscale) {
+        for (int i = 0; i < data.size(); i += 4) {
+          int y1 = quint8(data.at(i + 1));
+          int y2 = quint8(data.at(i + 3));
 
-        int red = y1 + 1.4 * cr;
-        int green = y1 - .343 * cb - .711 * cr;
-        int blue = y1 + 1.765 * cb;
+          pixels.append(qRgb(y1, y1, y1));
+          pixels.append(qRgb(y2, y2, y2));
+        }
+      } else {
+        const int k13 = int(1.402f * (1 << 16));
+        const int k22 = int(0.334f * (1 << 16));
+        const int k23 = int(0.714f * (1 << 16));
+        const int k32 = int(1.772f * (1 << 16));
 
-        if (red < 0)
-          red = 0;
-        else if (red > 255)
-          red = 255;
+        for (int i = 0; i < data.size(); i += 4) {
+          int red, green, blue;
 
-        if (green < 0)
-          green = 0;
-        else if (green > 255)
-          green = 255;
+          int cb = quint8(data.at(i)) - 128;
+          int y1 = quint8(data.at(i + 1));
+          int cr = quint8(data.at(i + 2)) - 128;
+          int y2 = quint8(data.at(i + 3));
 
-        if (blue < 0)
-          blue = 0;
-        else if (blue > 255)
-          blue = 255;
+          red = y1 + (k13 * cr >> 16);
+          green = y1 - (k22 * cb >> 16) - (k23 * cr >> 16);
+          blue = y1 + (k32 * cb >> 16);
 
-        pixels.append(qRgb(red, green, blue));
+          saturate(red, 0, 255);
+          saturate(green, 0, 255);
+          saturate(blue, 0, 255);
 
-        red = y2 + 1.4 * cr;
-        green = y2 - .343 * cb - .711 * cr;
-        blue = y2 + 1.765 * cb;
+          pixels.append(qRgb(red, green, blue));
 
-        if (red < 0)
-          red = 0;
-        else if (red > 255)
-          red = 255;
+          red = y2 + (k13 * cr >> 16);
+          green = y2 - (k22 * cb >> 16) - (k23 * cr >> 16);
+          blue = y2 + (k32 * cb >> 16);
 
-        if (green < 0)
-          green = 0;
-        else if (green > 255)
-          green = 255;
+          saturate(red, 0, 255);
+          saturate(green, 0, 255);
+          saturate(blue, 0, 255);
 
-        if (blue < 0)
-          blue = 0;
-        else if (blue > 255)
-          blue = 255;
-
-        pixels.append(qRgb(red, green, blue));
+          pixels.append(qRgb(red, green, blue));
+        }
       }
       break;
   }
 
   return pixels;
+}
+
+void ImageWidget::saturate(int &value, int min, int max)
+{
+  if (value < min)
+    value = min;
+  else if (value > max)
+    value = max;
 }
