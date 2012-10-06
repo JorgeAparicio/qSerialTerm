@@ -1,0 +1,11 @@
+# Compiled source #
+###################
+qSerialTerm
+*.o
+
+# Automatically generated code #
+################################
+qSerialTerm.pro.user
+Makefile
+moc_*.cpp
+ui_*.h
