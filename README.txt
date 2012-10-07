@@ -1,16 +1,29 @@
 ABOUT
 =====
 
-qSerialTerm is a simple serial port terminal emulator based on the Qt
-framework. qSerialTerm is mean to give you a feeling about the usage of
-the QtSerialPort library (http://qt-project.org/wiki/QtSerialPort), so you
-can code more complex applications later on.
+qSerialTerm is a Qt based serial port terminal emulator.
+
+qSerialTerm can interpret the incoming serial data as:
+
++ Text
++ Plots
++ Images
+
+qSerial can send data as:
+
++ Text
++ Frames
+
+The frame mode is useful for servomotor control.
 
 DEPENDENCIES
 ============
 
-qSerialTerm relies on the QtSerialPort and libqwt libraries. For installation 
-steps, check the wiki (https://github.com/JorgeAparicio/qSerialTerm/wiki).
++ Qwt library
++ QtSerialPort API
+
+For installation steps, check the wiki at:
+https://github.com/JorgeAparicio/qSerialTerm/wiki
 
 BUILDING
 ========
@@ -21,8 +34,7 @@ BUILDING
 DEVELOPMENT
 ===========
 
-qSerialTerm was developed using Qt Creator, which is the recommended IDE
-for further development.
+For further development Qt Creator is recommended.
 
 LICENSE
 =======
