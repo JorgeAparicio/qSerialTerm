@@ -191,10 +191,7 @@
     </layout>
    </item>
   </layout>
-  <zorder>horizontalSpacer</zorder>
-  <zorder>horizontalSpacer_2</zorder>
   <zorder>sendPushButton</zorder>
-  <zorder></zorder>
  </widget>
  <resources/>
  <connections/>
