@@ -25,6 +25,8 @@
 #include "qwt_plot_marker.h"
 #include "qwt_plot_grid.h"
 
+#include <QTime>
+
 Q_DECLARE_METATYPE(Qt::GlobalColor)
 
 Plot::Plot(size_t numberOfSamples, qreal minY, qreal maxY, QWidget *parent) :
@@ -61,6 +63,7 @@ Plot::Plot(size_t numberOfSamples, qreal minY, qreal maxY, QWidget *parent) :
   ui->colorComboBox->addItem("Dark magenta", Qt::darkMagenta);
   ui->colorComboBox->addItem("Dark yellow", Qt::darkYellow);
 
+  qsrand(QTime::currentTime().msec());
   ui->colorComboBox->setCurrentIndex(qrand() % ui->colorComboBox->count());
 }
 
