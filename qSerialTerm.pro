@@ -19,7 +19,7 @@
 
 QT          +=  core gui
 
-CONFIG      +=  qwt
+LIBS        +=  -lqwt
 
 win32 {
     CONFIG  +=  serialport

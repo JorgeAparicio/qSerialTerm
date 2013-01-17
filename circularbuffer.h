@@ -20,7 +20,7 @@
 #ifndef CIRCULARBUFFER_H
 #define CIRCULARBUFFER_H
 
-#include <qwt_series_data.h>
+#include <qwt/qwt_series_data.h>
 
 class CircularBuffer : public QwtSeriesData<QPointF>
 {

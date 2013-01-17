@@ -21,9 +21,9 @@
 #include "ui_plot.h"
 
 #include "circularbuffer.h"
-#include "qwt_plot_curve.h"
-#include "qwt_plot_marker.h"
-#include "qwt_plot_grid.h"
+#include "qwt/qwt_plot_curve.h"
+#include "qwt/qwt_plot_marker.h"
+#include "qwt/qwt_plot_grid.h"
 
 #include <QTime>
 
