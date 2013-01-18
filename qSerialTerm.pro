@@ -19,14 +19,13 @@
 
 QT          +=  core gui
 
-LIBS        +=  -lqwt
-
 win32 {
-    CONFIG  +=  serialport
+    CONFIG +=  serialport qwt
 }
 
 unix {
-    LIBS    +=  -lSerialPort
+    LIBS +=  -lSerialPort -lqwt
+    INCLUDEPATH += /usr/include/qwt
 }
 
 TARGET      =   qSerialTerm
