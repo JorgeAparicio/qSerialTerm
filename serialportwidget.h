@@ -22,8 +22,8 @@
 
 #include <QWidget>
 
-#include <QtAddOnSerialPort/serialport.h>
-#include <QtAddOnSerialPort/serialportinfo.h>
+#include <QtSerialPort/QSerialPort>
+#include <QtSerialPort/QSerialPortInfo>
 
 #include <QTimer>
 
@@ -66,8 +66,8 @@ class SerialPortWidget : public QWidget
     void validateCommunicationSettings();
 
     Ui::SerialPortWidget *ui;
-    QtAddOn::SerialPort::SerialPort *serialPort;
-    QList<QtAddOn::SerialPort::SerialPortInfo> serialPortInfoList;
+    QSerialPort *serialPort;
+    QList<QSerialPortInfo> serialPortInfoList;
     QTimer *refreshRateTimer;
     bool isThereCommunication;
 };
