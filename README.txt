@@ -27,6 +27,9 @@ https://github.com/JorgeAparicio/qSerialTerm/wiki
 
 BUILDING
 ========
+Maybe you'll have to compile qwt from sources.
+I tested with qwt6 static lib compiled from sources on
+Debian Jessie.
 
  $ qmake
  $ make

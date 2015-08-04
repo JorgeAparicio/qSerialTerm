@@ -46,22 +46,22 @@ Plot::Plot(size_t numberOfSamples, qreal minY, qreal maxY, QWidget *parent) :
   curve->setData(circularBuffer);
   curve->attach(ui->plot);
 
-  ui->colorComboBox->addItem("Black", Qt::black);
-  ui->colorComboBox->addItem("Dark gray", Qt::darkGray);
-  ui->colorComboBox->addItem("Gray", Qt::gray);
-  ui->colorComboBox->addItem("Light gray", Qt::lightGray);
-  ui->colorComboBox->addItem("Red", Qt::red);
-  ui->colorComboBox->addItem("Green", Qt::green);
-  ui->colorComboBox->addItem("Blue", Qt::blue);
-  ui->colorComboBox->addItem("Cyan", Qt::cyan);
-  ui->colorComboBox->addItem("Magenta", Qt::magenta);
-  ui->colorComboBox->addItem("Yellow", Qt::yellow);
-  ui->colorComboBox->addItem("Dark red", Qt::darkRed);
-  ui->colorComboBox->addItem("Dark green", Qt::darkGreen);
-  ui->colorComboBox->addItem("Dark blue", Qt::darkBlue);
-  ui->colorComboBox->addItem("Dark cyan", Qt::darkCyan);
-  ui->colorComboBox->addItem("Dark magenta", Qt::darkMagenta);
-  ui->colorComboBox->addItem("Dark yellow", Qt::darkYellow);
+  ui->colorComboBox->addItem("Black", QColor(Qt::black));
+  ui->colorComboBox->addItem("Dark gray", QColor(Qt::darkGray));
+  ui->colorComboBox->addItem("Gray", QColor(Qt::gray));
+  ui->colorComboBox->addItem("Light gray", QColor(Qt::lightGray));
+  ui->colorComboBox->addItem("Red", QColor(Qt::red));
+  ui->colorComboBox->addItem("Green", QColor(Qt::green));
+  ui->colorComboBox->addItem("Blue", QColor(Qt::blue));
+  ui->colorComboBox->addItem("Cyan", QColor(Qt::cyan));
+  ui->colorComboBox->addItem("Magenta", QColor(Qt::magenta));
+  ui->colorComboBox->addItem("Yellow", QColor(Qt::yellow));
+  ui->colorComboBox->addItem("Dark red", QColor(Qt::darkRed));
+  ui->colorComboBox->addItem("Dark green", QColor(Qt::darkGreen));
+  ui->colorComboBox->addItem("Dark blue", QColor(Qt::darkBlue));
+  ui->colorComboBox->addItem("Dark cyan", QColor(Qt::darkCyan));
+  ui->colorComboBox->addItem("Dark magenta", QColor(Qt::darkMagenta));
+  ui->colorComboBox->addItem("Dark yellow", QColor(Qt::darkYellow));
 
   qsrand(QTime::currentTime().msec());
   ui->colorComboBox->setCurrentIndex(qrand() % ui->colorComboBox->count());
@@ -139,8 +139,7 @@ void Plot::on_gridCheckBox_toggled(bool checked)
 {
   if (checked) {
     grid = new QwtPlotGrid;
-
-    grid->setMajPen(QPen(Qt::black, 0, Qt::DashLine));
+    grid->setMajorPen(QPen(Qt::black, 0, Qt::DashLine));
     grid->attach(ui->plot);
 
     ui->plot->replot();
